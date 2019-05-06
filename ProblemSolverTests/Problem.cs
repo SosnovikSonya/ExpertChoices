@@ -10,7 +10,7 @@ namespace ProblemSolverTests
     class Problem : IProblem
     {
         public string Name { get; set; }
-        public List<ExpertsEstimation> ExpertsEstimations { get; set; }
-        public List<AlternativesEstimation> AlternativesEstimations { get; set; }
+        public List<ExpertEstimation<IExpert>> ExpertsEstimations { get; set; }
+        public List<ExpertEstimation<IAlternative>> AlternativesEstimations { get; set; }
     }
 }

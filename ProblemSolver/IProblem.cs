@@ -9,7 +9,7 @@ namespace ProblemSolver
     public interface IProblem
     {
         string Name { get; set; }
-        List<ExpertsEstimation> ExpertsEstimations { get; set; }
-        List<AlternativesEstimation> AlternativesEstimations { get; set; }
+        List<ExpertEstimation<IExpert>> ExpertsEstimations { get; set; }
+        List<ExpertEstimation<IAlternative>> AlternativesEstimations { get; set; }
     }
 }

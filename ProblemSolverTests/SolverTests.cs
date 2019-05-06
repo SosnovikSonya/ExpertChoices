@@ -22,6 +22,11 @@ namespace ProblemSolverTests
                 Name = "Misha"
             };
 
+            var expert3 = new Expert
+            {
+                Name = "Eva"
+            };
+
             //Analytic
             var problem = new Problem
             {
@@ -39,55 +44,81 @@ namespace ProblemSolverTests
             };
 
             //Experts
-            var expEstimations1 = new ExpertsEstimation
+            var expEstimations1 = new ExpertEstimation<IExpert>
             {
-                EstimatingExpert = expert1,
-                ExpertsRankings = new Dictionary<IExpert, int>
+                Estimator = expert1,
+                Estimated = new Dictionary<IExpert, int>
                 {
-                    { expert2, 8},
+                    { expert2, 7},
+                    { expert3, 6},
                 }
             };
 
-            var expEstimations2 = new ExpertsEstimation
+            var expEstimations2 = new ExpertEstimation<IExpert>
             {
-                EstimatingExpert = expert2,
-                ExpertsRankings = new Dictionary<IExpert, int>
+                Estimator = expert2,
+                Estimated = new Dictionary<IExpert, int>
                 {
-                    { expert1, 7},
+                    { expert1, 9},
+                    { expert3, 10},
                 }
             };
 
-            var altEstimations1 = new AlternativesEstimation
+            var expEstimations3 = new ExpertEstimation<IExpert>
             {
-                EstimatingExpert = expert1,
-                AlternativesEstimations = new Dictionary<IAlternative, int>
+                Estimator = expert3,
+                Estimated = new Dictionary<IExpert, int>
+                {
+                    { expert1, 5},
+                    { expert2, 3},
+                }
+            };
+
+
+            var altEstimations1 = new ExpertEstimation<IAlternative>
+            {
+                Estimator = expert1,
+                Estimated = new Dictionary<IAlternative, int>
                 {
                     { alt1, 8},
-                    { alt2, 7}
+                    { alt2, 7},
                 }
             };
 
-            var altEstimations2 = new AlternativesEstimation
+            var altEstimations2 = new ExpertEstimation<IAlternative>
             {
-                EstimatingExpert = expert2,
-                AlternativesEstimations = new Dictionary<IAlternative, int>
+                Estimator = expert2,
+                Estimated = new Dictionary<IAlternative, int>
                 {
                     { alt1, 6},
                     { alt2, 7}
                 }
             };
 
+            var altEstimations3 = new ExpertEstimation<IAlternative>
+            {
+                Estimator = expert3,
+                Estimated = new Dictionary<IAlternative, int>
+                {
+                    { alt1, 2},
+                    { alt2, 10}
+                }
+            };
+
+
             //Server
-            problem.AlternativesEstimations = new List<AlternativesEstimation>
+            problem.AlternativesEstimations = new List<ExpertEstimation<IAlternative>>
                 {
                     altEstimations1,
-                    altEstimations2
+                    altEstimations2,
+                    altEstimations3
                 };
 
-            problem.ExpertsEstimations = new List<ExpertsEstimation>
+            problem.ExpertsEstimations = new List<ExpertEstimation<IExpert>>
                 {
                     expEstimations1,
-                    expEstimations2
+                    expEstimations2,
+                    expEstimations3
                 };
 
             var solver = new ProblemSolver<Problem>(problem);

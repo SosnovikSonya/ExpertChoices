@@ -41,12 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlternativesEstimation.cs" />
-    <Compile Include="ExpertsEstimation.cs" />
+    <Compile Include="ExpertEstimation.cs" />
     <Compile Include="IAlternative.cs" />
-    <Compile Include="IExpertEstimation.cs" />
     <Compile Include="IExpert.cs" />
     <Compile Include="IProblem.cs" />
+    <Compile Include="Matrix.cs" />
     <Compile Include="ProblemSolution.cs" />
     <Compile Include="ProblemSolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
