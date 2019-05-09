@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProblemSolver
 {
-    class Matrix<TRaw, TCol>
+    internal class Matrix<TRaw, TCol>
     {
         public int?[,] Array { get; set; }
         public List<TRaw> Raws { get; set; }

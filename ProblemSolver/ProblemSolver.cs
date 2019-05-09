@@ -10,33 +10,30 @@ namespace ProblemSolver
     {
         private Matrix<IExpert, IExpert> _expertsEstimationsMatrix;
         private Matrix<IExpert, IAlternative> _alternativesEstimationsMatrix;
+        public ProblemSolution<T> ProblemSolution { get; }      
 
         public ProblemSolver(T problemToSolve)
         {
             ProblemToSolve = problemToSolve;
+            ProblemSolution = new ProblemSolution<T>(ProblemToSolve);
         }
 
         public T ProblemToSolve { get; set; }
 
+        /// <summary>
+        /// Returnes solution to the problem
+        /// </summary>
         public ProblemSolution<T> SolveTheProblem()
         {
             _expertsEstimationsMatrix = GetFilledMatrix(ProblemToSolve.ExpertsEstimations);
             _alternativesEstimationsMatrix = GetFilledMatrix(ProblemToSolve.AlternativesEstimations);
 
-            var asd = EvaluateExpertsCompitency();
+            ProblemSolution.ExpertsCompitency = EvaluateExpertsCompitency();
+            ProblemSolution.ExpertsDispersion = EvaluateExpertsDispersion();
+            ProblemSolution.AlternativesDispersion = EvaluateAlternativesDispersion();
+            ProblemSolution.AlternativesPreferency = EvaluateAlternativesPreferency();   
 
-            //create solution instance
-            var solution = new ProblemSolution<T>(ProblemToSolve)
-            {
-                //fill its propertis = solve the problem
-                AlternativesDispersion = EvaluateAlternativesDispersion(),
-                AlternativesPreferency = EvaluateAlternativesPreferency(),
-                ExpertsCompitency = EvaluateExpertsCompitency(),
-                ExpertsDispersion = EvaluateExpertsDispersion()
-            };
-
-            //return filled object
-            return solution;
+            return ProblemSolution;
         }
 
         private List<IExpert> GetEstimators<TKey>(List<ExpertEstimation<TKey>> expertEstimations)
@@ -47,6 +44,9 @@ namespace ProblemSolver
                 .ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private List<TKey> GetObjectsOfExpertsEstimations<TKey>(List<ExpertEstimation<TKey>> expertEstimations)
         {
             return expertEstimations
@@ -97,15 +97,60 @@ namespace ProblemSolver
 
         private Dictionary<IAlternative, double> EvaluateAlternativesDispersion()
         {
+            var result = new Dictionary<IAlternative, double>();
 
-            return null;
+            for (int j = 0; j < _expertsEstimationsMatrix.Columns.Count; j++)
+            {
+                double Cj = 0;
+                double numerator = 0;
+                double altEstimationSum = 0;
+                for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
+                {
+                    if (_alternativesEstimationsMatrix.Array[i, j] != null)
+                    {
+                        altEstimationSum += (int)_alternativesEstimationsMatrix.Array[i, j];
+                    }
+                }
+                Cj = (altEstimationSum / (_alternativesEstimationsMatrix.Columns.Count));
+                for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
+                {
+                    if (_alternativesEstimationsMatrix.Array[i, j] != null)
+                    {
+                        numerator += Math.Pow((int)_alternativesEstimationsMatrix.Array[i, j] - Cj, 2);
+                    }
+                }
+                var AlternativesDispersion = (numerator / (_alternativesEstimationsMatrix.Columns.Count));
+                result.Add(_alternativesEstimationsMatrix.Columns[j], AlternativesDispersion);
+            }
+            return result;
         }
 
         private Dictionary<IAlternative, double> EvaluateAlternativesPreferency()
         {
+            var result = new Dictionary<IAlternative, double>();
+            double totalSum = 0;
+            for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
+            {
+                for (int j = 0; j < _alternativesEstimationsMatrix.Columns.Count; j++)
+                {
+                    totalSum += (int)_alternativesEstimationsMatrix.Array[i, j] * ProblemSolution.ExpertsCompitency[_alternativesEstimationsMatrix.Raws[i]];
+                }
+            }
+            for (int j = 0; j < _alternativesEstimationsMatrix.Columns.Count; j++)
+            {
+                double AltEstimationSum = 0;
 
-            return null;
+                for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
+                {
+                    AltEstimationSum += (int)_alternativesEstimationsMatrix.Array[i, j] * ProblemSolution.ExpertsCompitency[_alternativesEstimationsMatrix.Raws[i]];
+                }
+
+                var AlternativesDispersion = Math.Round(AltEstimationSum / totalSum, 3);
+                result.Add(_alternativesEstimationsMatrix.Columns[j], AlternativesDispersion);
+            }
+            return result;
         }
+
         private Dictionary<IExpert, double> EvaluateExpertsCompitency()
         {
             var result = new Dictionary<IExpert, double>();
@@ -121,29 +166,51 @@ namespace ProblemSolver
                 }
             }
 
-            for (int i = 0; i < _expertsEstimationsMatrix.Raws.Count; i++)
+            for (int j = 0; j < _expertsEstimationsMatrix.Columns.Count; j++)
             {
-                var expertEstimationSum = 0;
+                double expertEstimationSum = 0;
 
-                for (int j = 0; j < _expertsEstimationsMatrix.Columns.Count; j++)
+                for (int i = 0; i < _expertsEstimationsMatrix.Raws.Count; i++)
                 {
                     if (_expertsEstimationsMatrix.Array[i, j] != null)
                     {
                         expertEstimationSum += (int)_expertsEstimationsMatrix.Array[i, j];
                     }
                 }
-                var expertsCompitency = (double) expertEstimationSum / totalSum;
-                result.Add(_expertsEstimationsMatrix.Raws[i], expertsCompitency);
+                double expertsCompitency = expertEstimationSum / totalSum;
+                result.Add(_expertsEstimationsMatrix.Columns[j], expertsCompitency);
             }
             return result;
         }
 
         private Dictionary<IExpert, double> EvaluateExpertsDispersion()
         {
-
-            return null;
+            var result = new Dictionary<IExpert, double>();
+            
+            for (int j = 0; j < _expertsEstimationsMatrix.Columns.Count; j++)
+            {
+                double Rj = 0;
+                double numerator = 0;
+                double expertEstimationSum = 0;
+                for (int i = 0; i < _expertsEstimationsMatrix.Raws.Count; i++)
+                {
+                    if (_expertsEstimationsMatrix.Array[i, j] != null)
+                    {
+                        expertEstimationSum += (int)_expertsEstimationsMatrix.Array[i, j];
+                    }
+                }
+                Rj = (expertEstimationSum / (_expertsEstimationsMatrix.Columns.Count - 1));
+                for (int i = 0; i < _expertsEstimationsMatrix.Raws.Count; i++)
+                {
+                    if (_expertsEstimationsMatrix.Array[i, j] != null)
+                    {         
+                        numerator += Math.Pow((int)_expertsEstimationsMatrix.Array[i, j] - Rj, 2);
+                    }
+                }
+                var ExpertsDispersion = (numerator / (_expertsEstimationsMatrix.Columns.Count - 1));
+                result.Add(_expertsEstimationsMatrix.Raws[j], ExpertsDispersion);
+            }
+            return result;
         }
-
-       
     }
 }

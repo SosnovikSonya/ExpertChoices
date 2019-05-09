@@ -9,6 +9,6 @@ namespace ProblemSolver
     public class ExpertEstimation<T>
     {
         public IExpert Estimator { get; set; }
-        public Dictionary<T, int> Estimated { get; set; }
+        public Dictionary<T, int?> Estimated { get; set; }
     }
 }
