@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpertChoices.Models
+namespace ExpertChoicesModels
 {
-    class Problem : IProblem
+    public class Problem : IProblem
     {
         public string Name { get; }
         public List<ExpertEstimation<IExpert>> ExpertsEstimations { get; set; }

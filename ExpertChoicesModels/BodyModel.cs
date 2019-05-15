@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpertChoices.ServerInteraction
+namespace ExpertChoicesModels
 {
-    class BodyModel
+    public class BodyModel
     {
         public override string ToString()
         {

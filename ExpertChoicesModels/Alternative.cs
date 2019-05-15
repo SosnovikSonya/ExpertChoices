@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpertChoices.Models
+namespace ExpertChoicesModels
 {
-    class Expert : IExpert
+    public class Alternative : IAlternative
     {
-        public string Name { get; set;  }
+        public string Name { get; set; }
     }
 }

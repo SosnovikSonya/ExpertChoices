@@ -1,13 +1,12 @@
-﻿using ExpertChoices.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpertChoices.ServerInteraction
+namespace ExpertChoicesModels
 {
-    class GetPendingUsersModel : BodyModel
+    public class GetPendingUsersModel : BodyModel
     {
         public List<User> Users { get; set; }
     }

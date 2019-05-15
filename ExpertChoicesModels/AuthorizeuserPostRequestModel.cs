@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpertChoices.ServerInteraction
+namespace ExpertChoicesModels
 {
-    class AuthorizeUserPostRequestModel : BodyModel
+    public class AuthorizeUserPostRequestModel : BodyModel
     {
         public string AuthToken { get; set; }
     }

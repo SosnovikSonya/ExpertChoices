@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpertChoices.ServerInteraction
+namespace ExpertChoicesModels
 {
-    static class JsonHelper
+    public static class JsonHelper
     {
         public static string SerializeToJson(object obj)
         {

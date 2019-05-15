@@ -79,29 +79,18 @@
     <Compile Include="ExpertPage.Designer.cs">
       <DependentUpon>ExpertPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="HowToLogInPage.cs">
+    <Compile Include="LogAsPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HowToLogInPage.Designer.cs">
-      <DependentUpon>HowToLogInPage.cs</DependentUpon>
+    <Compile Include="LogAsPage.Designer.cs">
+      <DependentUpon>LogAsPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Alternative.cs" />
-    <Compile Include="Models\Expert.cs" />
-    <Compile Include="Models\Problem.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserRole.cs" />
     <Compile Include="RegistrationPage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RegistrationPage.Designer.cs">
       <DependentUpon>RegistrationPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="ServerInteraction\AuthorizeUserPostRequestModel.cs" />
-    <Compile Include="ServerInteraction\AuthorizeUserPostResponseModel.cs" />
-    <Compile Include="ServerInteraction\CreateProblemPostResponseModel.cs" />
-    <Compile Include="ServerInteraction\JsonHelper.cs" />
-    <Compile Include="ServerInteraction\ProcessUserRegistrationPostRequestModel.cs" />
-    <Compile Include="ServerInteraction\BodyModel.cs" />
     <Compile Include="ServerInteraction\ExpertChoicesClient.cs" />
     <Compile Include="HomePage.cs">
       <SubType>Form</SubType>
@@ -111,8 +100,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerInteraction\GetPendingUsersModel.cs" />
-    <Compile Include="ServerInteraction\RegisterUserPostRequestModel.cs" />
     <EmbeddedResource Include="AdminPage.resx">
       <DependentUpon>AdminPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -131,8 +118,8 @@
     <EmbeddedResource Include="AuthorizePage.resx">
       <DependentUpon>AuthorizePage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HowToLogInPage.resx">
-      <DependentUpon>HowToLogInPage.cs</DependentUpon>
+    <EmbeddedResource Include="LogAsPage.resx">
+      <DependentUpon>LogAsPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -162,6 +149,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExpertChoicesModels\ExpertChoicesModels.csproj">
+      <Project>{a2fdbeee-9af4-4075-9a17-b9c096a35ecb}</Project>
+      <Name>ExpertChoicesModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProblemSolver\ProblemSolver.csproj">
       <Project>{9c84d4bb-4ac4-4f7e-bf53-4c90c590a4c7}</Project>
       <Name>ProblemSolver</Name>

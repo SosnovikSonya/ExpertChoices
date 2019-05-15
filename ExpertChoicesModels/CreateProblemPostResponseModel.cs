@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpertChoices.Models
+namespace ExpertChoicesModels
 {
-    enum UserRole
+    public class CreateProblemPostResponseModel : BodyModel
     {
-        Admin = 2,
-        Expert = 4,
-        Analytic = 8
+        public int Id { set; get; }
     }
 }

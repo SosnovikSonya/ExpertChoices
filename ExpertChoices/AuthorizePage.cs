@@ -1,4 +1,4 @@
-﻿using ExpertChoices.Models;
+﻿using ExpertChoicesModels;
 using ExpertChoices.ServerInteraction;
 using System;
 using System.Collections.Generic;

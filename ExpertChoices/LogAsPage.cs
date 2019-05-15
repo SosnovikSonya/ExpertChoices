@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ExpertChoices
 {
-    public partial class HowToLogInPage : Form
+    public partial class LogAsPage : Form
     {
-        public HowToLogInPage()
+        public LogAsPage()
         {
             InitializeComponent();
         }

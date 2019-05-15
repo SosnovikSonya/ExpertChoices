@@ -1,13 +1,12 @@
-﻿using ExpertChoices.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExpertChoices.ServerInteraction
+namespace ExpertChoicesModels
 {
-    class AuthorizeUserPostResponseModel : BodyModel
+    public class AuthorizeUserPostResponseModel : BodyModel
     {
         public bool Authorized { get; set; }
         public UserRole Role { get; set; }
