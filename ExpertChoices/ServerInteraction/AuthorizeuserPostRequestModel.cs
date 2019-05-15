@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace ExpertChoices.ServerInteraction
 {
-    class BodyModel
+    class AuthorizeUserPostRequestModel : BodyModel
     {
-        public override string ToString()
-        {
-            return JsonHelper.SerializeToJson(this);
-        }
+        public string AuthToken { get; set; }
     }
 }

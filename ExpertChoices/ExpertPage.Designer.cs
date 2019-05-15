@@ -1,6 +1,6 @@
 ﻿namespace ExpertChoices
 {
-    partial class Form1
+    partial class ExpertPage
     {
         /// <summary>
         /// Required designer variable.
@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExpertPage));
             this.SuspendLayout();
             // 
-            // Form1
+            // ExpertPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "ExpertPage";
+            this.Text = "ОАО МяскоРай";
             this.ResumeLayout(false);
+
         }
 
         #endregion
     }
 }
-

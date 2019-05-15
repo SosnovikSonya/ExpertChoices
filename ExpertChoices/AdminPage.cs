@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ExpertChoices
 {
-    public partial class Form1 : Form
+    public partial class AdminPage : Form
     {
-        public Form1()
+        public AdminPage()
         {
             InitializeComponent();
         }

@@ -14,37 +14,58 @@ namespace ExpertChoices.ServerInteraction
     class ExpertChoicesClient
     {
         private HttpClient _httpClient;
-        private User _currentUser;
         private string _authToken;
+        private const string _domain = "http://ExpertChoices.com";
+        private const string _userApi = "/users";
+        private const string _problemApi = "/problems";
+        private const string _createUserMethod = "/create";
+        private const string _authorizeMethod = "/authorize";
+        private const string _sendEstimationsMethod = "/id";
+        private const string _getSolutionMethod = "/id";
+        private const string _approveUsersMethod = "/id";
 
-        public ExpertChoicesClient(User user)
+        public ExpertChoicesClient()
         {
             _httpClient = new HttpClient();
-            _currentUser = user;
-            _authToken = Convert.ToBase64String(
-                Encoding.ASCII.GetBytes(
-               $"{_currentUser.Email}:{_currentUser.Password}"));
         }
         
         //Post
-        public void Register(string email, string password)
+        public void Register(User user)
         {
-            //encode password and email
-
             //send http request
-
+            var content = JsonHelper.SerializeToJson(
+                new RegisterUserPostRequestModel
+                {
+                    AuthToken = GetAuthToken(user.Email, user.Password),
+                    Name = user.Name,
+                    Role = user.Role
+                });
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_userApi}{_createUserMethod}"), null, content);
+            var result = _httpClient.SendAsync(message).Result;
         }
 
-        //Post
-        public bool Authorize(string email, string password)
+        //Post -- verify user permissions
+        public bool Authorize(string email, string password, out UserRole role)
         {
             //encode password and email
+            _authToken = GetAuthToken(email, password);
 
-            //send http request
+            var content = JsonHelper.SerializeToJson(new AuthorizeUserPostRequestModel
+            {
+                AuthToken = _authToken
+            });
 
-            //process result
+            //var message = GetRequestMessagePost(new Uri($"{_domain}{_userApi}{_authorizeMethod}"), null, content);
+            //var result = _httpClient.SendAsync(message).Result;
+            //var resultContent = JsonHelper.DeserializeFromJson<AuthorizeUserPostResponseModel>(result.Content.ReadAsStringAsync().Result);
 
-            return true;
+            var resultContent = new AuthorizeUserPostResponseModel
+            {
+                Authorized = true,
+                Role = UserRole.Admin | UserRole.Analytic
+            };
+            role = resultContent.Role;
+            return resultContent.Authorized;
         }
 
         #region Expert
@@ -52,34 +73,45 @@ namespace ExpertChoices.ServerInteraction
         //Get
         public Problem CheckForProblems()
         {
-            return null;
+            var message = GetRequestMessageGet(new Uri(""), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<Problem>(result.Content.ReadAsStringAsync().Result);
         }
 
         //Post
-        public void SendEstimationsOnExperts(ExpertEstimation<IExpert> expertEstimations)
+        public void SendEstimationsOnExperts(ExpertEstimation<IExpert> expertEstimations, int problemId)
         {
-
+            var content = JsonHelper.SerializeToJson(expertEstimations);
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}{_sendEstimationsMethod}"), null, content);
+            var result = _httpClient.SendAsync(message).Result;
         }
 
         //Post
         public void SendEstimationsOnAlternatives(ExpertEstimation<IAlternative> alternativesEstimations)
         {
-
+            var content = JsonHelper.SerializeToJson(alternativesEstimations);
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}{_sendEstimationsMethod}"), null, content);
+            var result = _httpClient.SendAsync(message).Result;
         }
         #endregion
 
         #region Analytic
 
         //Post returns problem id
-        public void CreateProblem(Problem problem)
+        public int CreateProblem(Problem problem)
         {
-            
+            var content = JsonHelper.SerializeToJson(problem);
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}"), null, content);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonConvert.DeserializeObject<CreateProblemPostResponseModel>(result.Content.ReadAsStringAsync().Result).Id;
         }
 
-        //Post
-        public ProblemSolution<Problem> GetProblemStatus(string id)
+        //Get returns problem solution (complited or not)
+        public ProblemSolution<Problem> GetProblemSolution(int id)
         {
-            return null;
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}{_getSolutionMethod}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonConvert.DeserializeObject<ProblemSolution<Problem>>(result.Content.ReadAsStringAsync().Result);
         }
 
         #endregion
@@ -89,7 +121,7 @@ namespace ExpertChoices.ServerInteraction
         //Get
         public List<User> GetPendingUsers()
         {
-            var message = GetRequestMessageGet(new Uri(""),  null);
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_userApi}"),  null);
             var result = _httpClient.SendAsync(message).Result;
             var response = JsonConvert.DeserializeObject<GetPendingUsersModel>(result.Content.ReadAsStringAsync().Result);
 
@@ -104,7 +136,7 @@ namespace ExpertChoices.ServerInteraction
                 ApprovedUsers = approvedUsers,
                 RejectedUsers = rejectedUsers
             };
-            var message = GetRequestMessagePost(new Uri(""), null, requestBody.ToString());
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_userApi}{_approveUsersMethod}"), null, requestBody.ToString());
             var result = _httpClient.SendAsync(message).Result;
         }
 
@@ -134,6 +166,13 @@ namespace ExpertChoices.ServerInteraction
             }
             message.Headers.Authorization = new AuthenticationHeaderValue("Basic", _authToken);
             return message;
+        }
+
+        private string GetAuthToken(string email, string password)
+        {
+            return Convert.ToBase64String(
+                Encoding.ASCII.GetBytes(
+                    $"{email}:{password}"));
         }
     }
 }

@@ -44,9 +44,6 @@ namespace ProblemSolver
                 .ToList();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         private List<TKey> GetObjectsOfExpertsEstimations<TKey>(List<ExpertEstimation<TKey>> expertEstimations)
         {
             return expertEstimations
@@ -95,6 +92,9 @@ namespace ProblemSolver
             return matrix;
         }
 
+        /// <summary>
+        /// Returnes AlternativesDispersion coefficient
+        /// </summary>
         private Dictionary<IAlternative, double> EvaluateAlternativesDispersion()
         {
             var result = new Dictionary<IAlternative, double>();
@@ -104,6 +104,7 @@ namespace ProblemSolver
                 double Cj = 0;
                 double numerator = 0;
                 double altEstimationSum = 0;
+                //calculate the estimates put on the alternative
                 for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
                 {
                     if (_alternativesEstimationsMatrix.Array[i, j] != null)
@@ -125,6 +126,9 @@ namespace ProblemSolver
             return result;
         }
 
+        /// <summary>
+        /// Returnes AlternativesPreferency coefficient
+        /// </summary>
         private Dictionary<IAlternative, double> EvaluateAlternativesPreferency()
         {
             var result = new Dictionary<IAlternative, double>();
@@ -151,10 +155,14 @@ namespace ProblemSolver
             return result;
         }
 
+        /// <summary>
+        /// Returnes ExpertsCompitency coefficient
+        /// </summary>
         private Dictionary<IExpert, double> EvaluateExpertsCompitency()
         {
             var result = new Dictionary<IExpert, double>();
             var totalSum = 0;
+            //calculate the arithmetic average of all estimates
             for (int i = 0; i < _expertsEstimationsMatrix.Raws.Count; i++)
             {
                 for (int j = 0; j < _expertsEstimationsMatrix.Columns.Count; j++)
@@ -165,7 +173,7 @@ namespace ProblemSolver
                     }
                 }
             }
-
+            //calculate the estimates put on the expert
             for (int j = 0; j < _expertsEstimationsMatrix.Columns.Count; j++)
             {
                 double expertEstimationSum = 0;
@@ -183,6 +191,9 @@ namespace ProblemSolver
             return result;
         }
 
+        /// <summary>
+        /// Returnes ExpertsDispersion coefficient
+        /// </summary>
         private Dictionary<IExpert, double> EvaluateExpertsDispersion()
         {
             var result = new Dictionary<IExpert, double>();
@@ -192,6 +203,7 @@ namespace ProblemSolver
                 double Rj = 0;
                 double numerator = 0;
                 double expertEstimationSum = 0;
+                //calculate the estimates put on the expert
                 for (int i = 0; i < _expertsEstimationsMatrix.Raws.Count; i++)
                 {
                     if (_expertsEstimationsMatrix.Array[i, j] != null)

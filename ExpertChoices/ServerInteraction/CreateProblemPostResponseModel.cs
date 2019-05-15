@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace ExpertChoices.ServerInteraction
 {
-    class BodyModel
+    class CreateProblemPostResponseModel : BodyModel
     {
-        public override string ToString()
-        {
-            return JsonHelper.SerializeToJson(this);
-        }
+        public int Id { set; get; }
     }
 }
