@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ExpertChoicesServer.Controllers.UsersController">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAACAEAAAAAAAAAAIBAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\UsersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.Controllers.ProblemsController">
+    <Position X="2.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAACAEACAAAAAAAAAAAACAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Controllers\ProblemsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.Alternative">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAoAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataBase\Alternative.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.AlternativeDispersion">
+    <Position X="6" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAIAAAAAAAAAAAAAAAAAgAAAAAgAAAAAAA=</HashCode>
+      <FileName>DataBase\AlternativeDispersion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.AlternativesPreferency">
+    <Position X="8.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAgAAAAAgAAAAAAA=</HashCode>
+      <FileName>DataBase\AlternativesPreferency.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.DbHelper">
+    <Position X="10.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAAYAgQAAABAEKAgAAABAEAAAAAIABAAEAIAAAAAAAA=</HashCode>
+      <FileName>DataBase\DbHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.EstimationOnAlternative">
+    <Position X="0.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAgAAIAAgAIAAAAA=</HashCode>
+      <FileName>DataBase\EstimationOnAlternative.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.EstimationOnExpert">
+    <Position X="2.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAIgAgAAAACAA=</HashCode>
+      <FileName>DataBase\EstimationOnExpert.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.Expert">
+    <Position X="4.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAQAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataBase\Expert.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.ExpertsCompitency">
+    <Position X="6.25" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAIAAAgAAAAAgAAAAAAA=</HashCode>
+      <FileName>DataBase\ExpertsCompitency.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.ExpertsDispersion">
+    <Position X="8.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAIAAAgAAAAAgAAAAAAA=</HashCode>
+      <FileName>DataBase\ExpertsDispersion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.Problem">
+    <Position X="0.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataBase\Problem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.Solution">
+    <Position X="2.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAIgAAAAAAAAAAACAAAAgAAAAAAABAAAAA=</HashCode>
+      <FileName>DataBase\Solution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.DataBase.User">
+    <Position X="4.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAACCAAAAAAEAAAAAAAAAAAAAACAAAAAAAAAAg=</HashCode>
+      <FileName>DataBase\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExpertChoicesServer.Models.ModelMapper">
+    <Position X="6.5" Y="5.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAgAACgCgAAAAAAAAA=</HashCode>
+      <FileName>Models\ModelMapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

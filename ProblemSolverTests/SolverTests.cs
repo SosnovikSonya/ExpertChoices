@@ -1,206 +1,230 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProblemSolver;
+﻿//using System;
+//using System.Collections.Generic;
+//using ExpertChoicesModels;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using ProblemSolver;
 
-namespace ProblemSolverTests
-{
-    [TestClass]
-    public class SolverTests
-    {
-        [TestMethod]
-        public void ProblemSolver_SomeProblem_SolutionIsNotEmpty()
-        {
-            //Admin
-            var expert1 = new Expert
-            {
-                Name = "Sonya"
-            };
+//namespace ProblemSolverTests
+//{
+//    [TestClass]
+//    public class SolverTests
+//    {
+//        ExpertChoicesModels.Expert expert1;
+//        ExpertChoicesModels.Expert expert2;
+//        ExpertChoicesModels.Expert expert3;
+//        ExpertChoicesModels.Problem problem;
 
-            var expert2 = new Expert
-            {
-                Name = "Misha"
-            };
+//        ExpertChoicesModels.Alternative alt1;
+//        ExpertChoicesModels.Alternative alt2;
+//        ExpertChoicesModels.Alternative alt3;
 
-            var expert3 = new Expert
-            {
-                Name = "Eva"
-            };
+//        Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert> expEstimations1;
+//        Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert> expEstimations2;
+//        Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert> expEstimations3;
 
-            //Analytic
-            var problem = new Problem
-            {
-                Name = "When to go to cinema"
-            };
-
-            var alt1 = new Alternative
-            {
-                Name = "Sunday"
-            };
-
-            var alt2 = new Alternative
-            {
-                Name = "Saturday"
-            };
-
-            var alt3 = new Alternative
-            {
-                Name = "Monday"
-            };
-
-            //Experts
-            var expEstimations1 = new ExpertEstimation<IExpert>
-            {
-                Estimator = expert1,
-                Estimated = new Dictionary<IExpert, int?>
-                {
-                    { expert2, 7},
-                    { expert3, 6},
-                }
-            };
-
-            var expEstimations2 = new ExpertEstimation<IExpert>
-            {
-                Estimator = expert2,
-                Estimated = new Dictionary<IExpert, int?>
-                {
-                    { expert1, 9},
-                    { expert3, 10},
-                }
-            };
-
-            var expEstimations3 = new ExpertEstimation<IExpert>
-            {
-                Estimator = expert3,
-                Estimated = new Dictionary<IExpert, int?>
-                {
-                    { expert1, 5},
-                    { expert2, 3},
-                }
-            };
+//        Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative> altEstimations1;
+//        Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative> altEstimations2;
+//        Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative> altEstimations3;
 
 
-            var altEstimations1 = new ExpertEstimation<IAlternative>
-            {
-                Estimator = expert1,
-                Estimated = new Dictionary<IAlternative, int?>
-                {
-                    { alt1, 7},
-                    { alt2, 4},
-                    { alt3, 5}
-                }
-            };
-
-            var altEstimations2 = new ExpertEstimation<IAlternative>
-            {
-                Estimator = expert2,
-                Estimated = new Dictionary<IAlternative, int?>
-                {
-                    { alt1, 8},
-                    { alt2, 3},
-                    { alt3, 10}
-                }
-            };
-
-            var altEstimations3 = new ExpertEstimation<IAlternative>
-            {
-                Estimator = expert3,
-                Estimated = new Dictionary<IAlternative, int?>
-                {
-                    { alt1, 3},
-                    { alt2, 8},
-                    { alt3, 4}
-                }
-            };
+//        [TestMethod]
+//        public void ProblemSolver_SomeProblem_SolutionIsNotEmpty()
+//        {
+            
 
 
-            //Server
-            problem.AlternativesEstimations = new List<ExpertEstimation<IAlternative>>
-                {
-                    altEstimations1,
-                    altEstimations2,
-                    altEstimations3
-                };
 
-            problem.ExpertsEstimations = new List<ExpertEstimation<IExpert>>
-                {
-                    expEstimations1,
-                    expEstimations2,
-                    expEstimations3
-                };
 
-            var solver = new ProblemSolver<Problem>(problem);
+//            //Admin
+//            var expert1 = new Expert
+//            {
+//                Name = "Sonya"
+//            };
 
-            //Server to Analytic
-            var solution = solver.SolveTheProblem();
+//            var expert2 = new Expert
+//            {
+//                Name = "Misha"
+//            };
 
-            Assert.IsNotNull(solution.AlternativesDispersion, "AlternativesDispersion expected to be not null");
-        }
+//            var expert3 = new Expert
+//            {
+//                Name = "Eva"
+//            };
 
-        [TestMethod]
-        public void MyTestMethod()
-        {
-            var intOperator = new IntOperator();
-            intOperator.OnOperation += GetStringRepresentation;
+//            //Analytic
+//            var problem = new Problem
+//            {
+//                Name = "When to go to cinema"
+//            };
 
-            intOperator.DoOperations(1, 2);
+//            var alt1 = new Alternative
+//            {
+//                Name = "Sunday"
+//            };
 
-            Console.WriteLine(intOperator.result1);
-            Console.WriteLine(intOperator.result2);
+//            var alt2 = new Alternative
+//            {
+//                Name = "Saturday"
+//            };
 
-        }
+//            var alt3 = new Alternative
+//            {
+//                Name = "Monday"
+//            };
 
-        public static string GetStringRepresentation(int a, int b)
-        {
-            Console.WriteLine($"{a} and {b}");
-            return $"{a} and {b}";
-        }
-    }
+//            //Experts
+//            var expEstimations1 = new Estimation<IExpert, IExpert>
+//            {
+//                Estimator = expert1,
+//                Estimated = new Dictionary<IExpert, int?>
+//                {
+//                    { expert2, 7},
+//                    { expert3, 6},
+//                }
+//            };
 
-    
-    class IntOperator
-    {
-        public event OperationStarted OnOperation;
-        private Operation Operation;
-        public int result1;
-        public int result2;
+//            var expEstimations2 = new Estimation<IExpert, IExpert>
+//            {
+//                Estimator = expert2,
+//                Estimated = new Dictionary<IExpert, int?>
+//                {
+//                    { expert1, 9},
+//                    { expert3, 10},
+//                }
+//            };
 
-        public IntOperator()
-        {
-            Operation += Sum;
-            Operation += Multiply;
-        }
+//            var expEstimations3 = new Estimation<IExpert, IExpert>
+//            {
+//                Estimator = expert3,
+//                Estimated = new Dictionary<IExpert, int?>
+//                {
+//                    { expert1, 5},
+//                    { expert2, 3},
+//                }
+//            };
 
-        public void DoOperations(int a, int b)
-        {
-            Operation.Invoke(a, b);
-        }
 
-        private void Sum(int a, int b)
-        {
-            OnOperation.Invoke(a, b);
-            result1 = a + b;
-        }
+//            var altEstimations1 = new Estimation<IExpert, IAlternative>
+//            {
+//                Estimator = expert1,
+//                Estimated = new Dictionary<IAlternative, int?>
+//                {
+//                    { alt1, 7},
+//                    { alt2, 4},
+//                    { alt3, 5}
+//                }
+//            };
 
-        private void Multiply(int a, int b)
-        {
-            result2 = a * b;
-        }
-    }
+//            var altEstimations2 = new Estimation<IExpert, IAlternative>
+//            {
+//                Estimator = expert2,
+//                Estimated = new Dictionary<IAlternative, int?>
+//                {
+//                    { alt1, 8},
+//                    { alt2, 3},
+//                    { alt3, 10}
+//                }
+//            };
 
-    delegate void Operation(int a, int b);
+//            var altEstimations3 = new Estimation<IExpert, IAlternative>
+//            {
+//                Estimator = expert3,
+//                Estimated = new Dictionary<IAlternative, int?>
+//                {
+//                    { alt1, 3},
+//                    { alt2, 8},
+//                    { alt3, 4}
+//                }
+//            };
 
-    delegate string OperationStarted(int a, int b);
 
-    enum KindOfMeat
-    {
-        Chiken = 2,
-        Pork = 4,
-        Fish = 8
-    }
+//            //Server
+//            problem.AlternativesEstimations = new List<Estimation<IExpert, IAlternative>>
+//                {
+//                    altEstimations1,
+//                    altEstimations2,
+//                    altEstimations3
+//                };
 
-    class Kotleta
-    {
-        public KindOfMeat meat = KindOfMeat.Chiken | KindOfMeat.Pork;
-    }
-}
+//            problem.ExpertsEstimations = new List<Estimation<IExpert, IExpert>>
+//                {
+//                    expEstimations1,
+//                    expEstimations2,
+//                    expEstimations3
+//                };
+
+//            var solver = new ProblemSolver<Problem>(problem);
+
+//            //Server to Analytic
+//            var solution = solver.SolveTheProblem();
+
+//            Assert.IsNotNull(solution.AlternativesDispersion, "AlternativesDispersion expected to be not null");
+//        }
+
+//        [TestMethod]
+//        public void MyTestMethod()
+//        {
+//            var intOperator = new IntOperator();
+//            intOperator.OnOperation += GetStringRepresentation;
+
+//            intOperator.DoOperations(1, 2);
+
+//            Console.WriteLine(intOperator.result1);
+//            Console.WriteLine(intOperator.result2);
+
+//        }
+
+//        public static string GetStringRepresentation(int a, int b)
+//        {
+//            Console.WriteLine($"{a} and {b}");
+//            return $"{a} and {b}";
+//        }
+//    }
+
+
+//    class IntOperator
+//    {
+//        public event OperationStarted OnOperation;
+//        private Operation Operation;
+//        public int result1;
+//        public int result2;
+
+//        public IntOperator()
+//        {
+//            Operation += Sum;
+//            Operation += Multiply;
+//        }
+
+//        public void DoOperations(int a, int b)
+//        {
+//            Operation.Invoke(a, b);
+//        }
+
+//        private void Sum(int a, int b)
+//        {
+//            OnOperation.Invoke(a, b);
+//            result1 = a + b;
+//        }
+
+//        private void Multiply(int a, int b)
+//        {
+//            result2 = a * b;
+//        }
+//    }
+
+//    delegate void Operation(int a, int b);
+
+//    delegate string OperationStarted(int a, int b);
+
+//    enum KindOfMeat
+//    {
+//        Chiken = 2,
+//        Pork = 4,
+//        Fish = 8
+//    }
+
+//    class Kotleta
+//    {
+//        public KindOfMeat meat = KindOfMeat.Chiken | KindOfMeat.Pork;
+//    }
+//}

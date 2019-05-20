@@ -47,18 +47,30 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alternative.cs" />
-    <Compile Include="Expert.cs" />
-    <Compile Include="Problem.cs" />
+    <Compile Include="ServerTests.cs" />
     <Compile Include="SolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExpertChoicesModels\ExpertChoicesModels.csproj">
+      <Project>{a2fdbeee-9af4-4075-9a17-b9c096a35ecb}</Project>
+      <Name>ExpertChoicesModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpertChoicesServer\ExpertChoicesServer.csproj">
+      <Project>{cc978d5f-b69e-45fc-982a-bf62aef693ac}</Project>
+      <Name>ExpertChoicesServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpertChoices\ExpertChoices.csproj">
+      <Project>{9db1fb55-5775-4cee-bd5a-422d816010e4}</Project>
+      <Name>ExpertChoices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProblemSolver\ProblemSolver.csproj">
       <Project>{9c84d4bb-4ac4-4f7e-bf53-4c90c590a4c7}</Project>
       <Name>ProblemSolver</Name>

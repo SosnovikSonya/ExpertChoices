@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExpertEstimation.cs" />
+    <Compile Include="Estimation.cs" />
     <Compile Include="IAlternative.cs" />
     <Compile Include="IExpert.cs" />
     <Compile Include="IProblem.cs" />
@@ -49,6 +49,9 @@
     <Compile Include="ProblemSolution.cs" />
     <Compile Include="ProblemSolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

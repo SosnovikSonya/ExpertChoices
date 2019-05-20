@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProblemSolver
+namespace ExpertChoicesModels
 {
-    public interface IAlternative
+    public class ProblemListModel : BodyModel
     {
-        string Name { get; set; }
-        string Description { get; set; }
+        public List<Problem> Problems { get; set; }
     }
 }

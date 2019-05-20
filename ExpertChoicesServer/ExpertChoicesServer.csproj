@@ -43,7 +43,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -63,9 +69,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -81,18 +84,34 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Controllers\ProblemsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="DataBase\Alternative.cs" />
+    <Compile Include="DataBase\AlternativeDispersion.cs" />
+    <Compile Include="DataBase\AlternativePreferency.cs" />
+    <Compile Include="DataBase\DbHelper.cs" />
+    <Compile Include="DataBase\EstimationOnAlternative.cs" />
+    <Compile Include="DataBase\EstimationOnExpert.cs" />
+    <Compile Include="DataBase\Expert.cs" />
+    <Compile Include="DataBase\ExpertCompitency.cs" />
+    <Compile Include="DataBase\ExpertDispersion.cs" />
+    <Compile Include="DataBase\Problem.cs" />
+    <Compile Include="DataBase\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -103,8 +122,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="DataBase\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExpertChoicesModels\ExpertChoicesModels.csproj">
+      <Project>{A2FDBEEE-9AF4-4075-9A17-B9C096A35ECB}</Project>
+      <Name>ExpertChoicesModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProblemSolver\ProblemSolver.csproj">
+      <Project>{9C84D4BB-4AC4-4F7E-BF53-4C90C590A4C7}</Project>
+      <Name>ProblemSolver</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

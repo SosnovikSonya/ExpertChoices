@@ -36,7 +36,7 @@ namespace ExpertChoices.ServerInteraction
                 new RegisterUserPostRequestModel
                 {
                     AuthToken = GetAuthToken(user.Email, user.Password),
-                    Name = user.Name,
+                    Name = user.FirstName,
                     Role = user.Role
                 });
             var message = GetRequestMessagePost(new Uri($"{_domain}{_userApi}{_createUserMethod}"), null, content);
@@ -70,15 +70,15 @@ namespace ExpertChoices.ServerInteraction
         #region Expert
 
         //Get
-        public Problem CheckForProblems()
+        public ProblemListModel CheckForProblems()
         {
             var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}"), null);
             var result = _httpClient.SendAsync(message).Result;
-            return JsonHelper.DeserializeFromJson<Problem>(result.Content.ReadAsStringAsync().Result);
+            return JsonHelper.DeserializeFromJson<ProblemListModel>(result.Content.ReadAsStringAsync().Result);
         }
 
         //Post
-        public void SendEstimationsOnExperts(ExpertEstimation<Expert> estimations, int problemId)
+        public void SendEstimationsOnExperts(Estimation<Expert, Expert> estimations, int problemId)
         {
             var content = JsonHelper.SerializeToJson(estimations);
             var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}/{problemId}{_expertsMethod}"), null, content);
@@ -86,7 +86,7 @@ namespace ExpertChoices.ServerInteraction
         }
 
         //Post
-        public void SendEstimationsOnAlternatives(ExpertEstimation<Alternative> estimations, int problemId)
+        public void SendEstimationsOnAlternatives(Estimation<Expert, Alternative> estimations, int problemId)
         {
             var content = JsonHelper.SerializeToJson(estimations);
             var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}/{problemId}{_alternativesMethod}"), null, content);
@@ -107,11 +107,11 @@ namespace ExpertChoices.ServerInteraction
         }
 
         //Get returns problem solution (complited or not)
-        public ProblemSolution<Problem> GetProblemSolution(int id)
+        public ProblemSolution GetProblemSolution(int id)
         {
             var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}/{id}"), null);
             var result = _httpClient.SendAsync(message).Result;
-            return JsonConvert.DeserializeObject<ProblemSolution<Problem>>(result.Content.ReadAsStringAsync().Result);
+            return JsonConvert.DeserializeObject<ProblemSolution>(result.Content.ReadAsStringAsync().Result);
         }
 
         #endregion

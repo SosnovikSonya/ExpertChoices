@@ -8,6 +8,7 @@ namespace ExpertChoicesModels
 {
     public enum UserRole
     {
+        Null = 0,
         Admin = 2,
         Expert = 4,
         Analytic = 8

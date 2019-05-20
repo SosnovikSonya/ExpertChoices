@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace ProblemSolver
 {
-    public interface IProblem
+    public interface IProblem<TEstimator, TEstimatedExpert, TEstimatedAlternative>  
+        where TEstimator: IExpert 
+        where TEstimatedExpert : IExpert
+        where TEstimatedAlternative : IAlternative
+
     {
         string Name { get; }
-        List<ExpertEstimation<IExpert>> ExpertsEstimations { get; set; }
-        List<ExpertEstimation<IAlternative>> AlternativesEstimations { get; set; }
+        List<Estimation<TEstimator, TEstimatedExpert>> ExpertsEstimations { get; set; }
+        List<Estimation<TEstimator, TEstimatedAlternative>> AlternativesEstimations { get; set; }
+        string Description { get; set; }
     }
 }

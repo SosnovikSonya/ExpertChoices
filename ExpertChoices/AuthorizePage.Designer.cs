@@ -39,9 +39,9 @@
             // 
             // goBack
             // 
-            this.goBack.BackColor = System.Drawing.Color.White;
+            this.goBack.BackColor = System.Drawing.Color.Maroon;
             this.goBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.goBack.ForeColor = System.Drawing.Color.Maroon;
+            this.goBack.ForeColor = System.Drawing.SystemColors.Control;
             this.goBack.Location = new System.Drawing.Point(12, 293);
             this.goBack.Name = "goBack";
             this.goBack.Size = new System.Drawing.Size(100, 41);
@@ -53,7 +53,7 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(258, 107);
+            this.textBox1.Location = new System.Drawing.Point(145, 86);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(287, 30);
             this.textBox1.TabIndex = 1;
@@ -61,34 +61,36 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.Location = new System.Drawing.Point(258, 163);
+            this.textBox2.Location = new System.Drawing.Point(145, 196);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(287, 30);
             this.textBox2.TabIndex = 2;
             // 
             // EnterEmailLabel
             // 
-            this.EnterEmailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EnterEmailLabel.Location = new System.Drawing.Point(22, 107);
+            this.EnterEmailLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.EnterEmailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EnterEmailLabel.Location = new System.Drawing.Point(206, 31);
             this.EnterEmailLabel.Name = "EnterEmailLabel";
-            this.EnterEmailLabel.Size = new System.Drawing.Size(192, 30);
+            this.EnterEmailLabel.Size = new System.Drawing.Size(165, 30);
             this.EnterEmailLabel.TabIndex = 3;
             this.EnterEmailLabel.Text = "Введите Email:";
             // 
             // EnterPasswordLabel
             // 
-            this.EnterPasswordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EnterPasswordLabel.Location = new System.Drawing.Point(22, 163);
+            this.EnterPasswordLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.EnterPasswordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.EnterPasswordLabel.Location = new System.Drawing.Point(197, 145);
             this.EnterPasswordLabel.Name = "EnterPasswordLabel";
-            this.EnterPasswordLabel.Size = new System.Drawing.Size(192, 30);
+            this.EnterPasswordLabel.Size = new System.Drawing.Size(184, 30);
             this.EnterPasswordLabel.TabIndex = 4;
             this.EnterPasswordLabel.Text = "Введите пароль:";
             // 
             // next
             // 
-            this.next.BackColor = System.Drawing.Color.White;
+            this.next.BackColor = System.Drawing.Color.Maroon;
             this.next.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.next.ForeColor = System.Drawing.Color.Maroon;
+            this.next.ForeColor = System.Drawing.SystemColors.Control;
             this.next.Location = new System.Drawing.Point(445, 293);
             this.next.Name = "next";
             this.next.Size = new System.Drawing.Size(100, 41);

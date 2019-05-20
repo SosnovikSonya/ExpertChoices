@@ -6,24 +6,33 @@ using System.Threading.Tasks;
 
 namespace ProblemSolver
 {
-    public class ProblemSolver<T> where T: IProblem
-    {
-        private Matrix<IExpert, IExpert> _expertsEstimationsMatrix;
-        private Matrix<IExpert, IAlternative> _alternativesEstimationsMatrix;
-        public ProblemSolution<T> ProblemSolution { get; }      
+    public class ProblemSolver<TProblem, TEstimator, TEstimatedExpert, TEstimatedAlternative>
+        where TEstimator : IExpert
+        where TEstimatedExpert : IExpert
+        where TEstimatedAlternative : IAlternative
+        where TProblem : IProblem<TEstimator, TEstimatedExpert, TEstimatedAlternative>
 
-        public ProblemSolver(T problemToSolve)
+
+
+
+        //<T> where T: IProblem<IExpert, IExpert, IAlternative>
+    {
+        private Matrix<TEstimator, TEstimatedExpert> _expertsEstimationsMatrix;
+        private Matrix<TEstimator, TEstimatedAlternative> _alternativesEstimationsMatrix;
+        public ProblemSolution ProblemSolution { get; }      
+
+        public ProblemSolver(TProblem problemToSolve)
         {
             ProblemToSolve = problemToSolve;
-            ProblemSolution = new ProblemSolution<T>(ProblemToSolve);
+            ProblemSolution = new ProblemSolution();
         }
 
-        public T ProblemToSolve { get; set; }
+        public TProblem ProblemToSolve { get; set; }
 
         /// <summary>
         /// Returnes solution to the problem
         /// </summary>
-        public ProblemSolution<T> SolveTheProblem()
+        public ProblemSolution SolveTheProblem()
         {
             _expertsEstimationsMatrix = GetFilledMatrix(ProblemToSolve.ExpertsEstimations);
             _alternativesEstimationsMatrix = GetFilledMatrix(ProblemToSolve.AlternativesEstimations);
@@ -36,7 +45,7 @@ namespace ProblemSolver
             return ProblemSolution;
         }
 
-        private List<IExpert> GetEstimators<TKey>(List<ExpertEstimation<TKey>> expertEstimations)
+        private List<TEstimator> GetEstimators<TKey>(List<Estimation<TEstimator, TKey>> expertEstimations)
         {
             return expertEstimations
                 .Select(estimation => estimation.Estimator)
@@ -44,7 +53,7 @@ namespace ProblemSolver
                 .ToList();
         }
 
-        private List<TKey> GetObjectsOfExpertsEstimations<TKey>(List<ExpertEstimation<TKey>> expertEstimations)
+        private List<TKey> GetObjectsOfExpertsEstimations<TKey>(List<Estimation<TEstimator, TKey>> expertEstimations)
         {
             return expertEstimations
                 .SelectMany(estimation => estimation.Estimated)
@@ -53,11 +62,11 @@ namespace ProblemSolver
                 .ToList();
         }
 
-        private Matrix<IExpert, TKey> GetFilledMatrix<TKey>(List<ExpertEstimation<TKey>> expertEstimations)
+        private Matrix<TEstimator, TKey> GetFilledMatrix<TKey>(List<Estimation<TEstimator, TKey>> expertEstimations)
         {
             var estimators = GetEstimators(expertEstimations);
             var estimatings = GetObjectsOfExpertsEstimations(expertEstimations);
-            var matrix = new Matrix<IExpert, TKey>()
+            var matrix = new Matrix<TEstimator, TKey>()
             {
                 Array = new int?[estimators.Count, estimatings.Count],
                 Raws = estimators,

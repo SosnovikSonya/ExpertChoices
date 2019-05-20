@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ProblemSolver.Matrix&lt;TRaw, TCol&gt;">
+    <Position X="44.5" Y="11.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAgAAAE=</HashCode>
+      <FileName>Matrix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProblemSolver.ProblemSolution&lt;T&gt;">
+    <Position X="42" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQACAAAAAAABAAAAAAAAAAAEAE=</HashCode>
+      <FileName>ProblemSolution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProblemSolver.ProblemSolver&lt;T&gt;">
+    <Position X="38.5" Y="13.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>ABEgAAAIAAAgAAAAAAAAAAAgAEAAAAAAAAQAgoAAAAE=</HashCode>
+      <FileName>ProblemSolver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProblemSolver.ExpertEstimation&lt;T&gt;">
+    <Position X="44.25" Y="13.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExpertEstimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="ProblemSolver.IAlternative">
+    <Position X="38.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IAlternative.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ProblemSolver.IExpert">
+    <Position X="40.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IExpert.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ProblemSolver.IProblem">
+    <Position X="42.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAQAAAAAQAAAAAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>IProblem.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomePage));
             this.RegistrButton = new System.Windows.Forms.Button();
             this.AuthButton = new System.Windows.Forms.Button();
             this.ExitButton = new System.Windows.Forms.Button();
@@ -35,7 +36,7 @@
             // 
             // RegistrButton
             // 
-            this.RegistrButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.RegistrButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.RegistrButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RegistrButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.RegistrButton.Location = new System.Drawing.Point(138, 58);
@@ -48,7 +49,7 @@
             // 
             // AuthButton
             // 
-            this.AuthButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.AuthButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.AuthButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AuthButton.Location = new System.Drawing.Point(138, 145);
             this.AuthButton.Name = "AuthButton";
@@ -70,17 +71,17 @@
             this.ExitButton.UseVisualStyleBackColor = false;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
-            // Form1
+            // HomePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::ExpertChoices.Properties.Resources._33629_Grodnenskij_Mjasokombinat;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(557, 359);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.AuthButton);
             this.Controls.Add(this.RegistrButton);
-            this.Name = "Form1";
+            this.Name = "HomePage";
             this.Text = "ОАО МяскоРай";
             this.ResumeLayout(false);
 

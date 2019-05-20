@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 
 namespace ExpertChoicesModels
 {
-    public class Problem : IProblem
+    public class Problem : BodyModel, IProblem<Expert, Expert, Alternative>
     {
-        public string Name { get; }
-        public List<ExpertEstimation<IExpert>> ExpertsEstimations { get; set; }
-        public List<ExpertEstimation<IAlternative>> AlternativesEstimations { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<Estimation<Expert, Expert>> ExpertsEstimations { get; set; }
+        public List<Estimation<Expert, Alternative>> AlternativesEstimations { get; set; }
+        public string Description { get; set; }
+
+        public Problem()
+        {
+            ExpertsEstimations = new List<Estimation<Expert, Expert>>();
+            AlternativesEstimations = new List<Estimation<Expert, Alternative>>();
+        }
     }
 }

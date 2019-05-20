@@ -35,26 +35,25 @@
             // LogInAsLabel
             // 
             this.LogInAsLabel.AutoSize = true;
-            this.LogInAsLabel.BackColor = System.Drawing.Color.Maroon;
-            this.LogInAsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.LogInAsLabel.ForeColor = System.Drawing.Color.White;
-            this.LogInAsLabel.Location = new System.Drawing.Point(160, 23);
-            this.LogInAsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.LogInAsLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.LogInAsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LogInAsLabel.ForeColor = System.Drawing.Color.Black;
+            this.LogInAsLabel.Location = new System.Drawing.Point(238, 25);
             this.LogInAsLabel.Name = "LogInAsLabel";
-            this.LogInAsLabel.Size = new System.Drawing.Size(107, 24);
+            this.LogInAsLabel.Size = new System.Drawing.Size(128, 29);
             this.LogInAsLabel.TabIndex = 0;
             this.LogInAsLabel.Text = "Войти как";
             // 
             // LogAsPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(437, 335);
+            this.ClientSize = new System.Drawing.Size(583, 412);
             this.Controls.Add(this.LogInAsLabel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "LogAsPage";
-            this.Text = "HowToLogInPage";
+            this.Text = "ОАО МяскоРай";
             this.ResumeLayout(false);
             this.PerformLayout();
 

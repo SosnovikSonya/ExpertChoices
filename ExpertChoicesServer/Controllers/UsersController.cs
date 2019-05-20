@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ExpertChoicesModels;
+using ExpertChoicesServer.DataBase;
+using ExpertChoicesServer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,9 +15,14 @@ namespace ExpertChoicesServer.Controllers
         // GET: api/Users
         [Route("api/users")]
         [HttpGet]
-        public IEnumerable<string> GetPendingUsers()
+        public GetPendingUsersModel GetPendingUsers()
         {
-            return new string[] { "value1", "value2" };
+            var list = DbHelper.GetPendingUsers();
+            var response = new GetPendingUsersModel()
+            {
+                Users = list.Select(userDB => ModelMapper.ConvertToResponseUser(userDB)).ToList()
+            };
+            return response;
         }
 
         // PUT: api/Users/5

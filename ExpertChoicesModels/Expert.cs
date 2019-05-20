@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace ExpertChoicesModels
 {
-    public class Expert : IExpert
+    public class Expert : BodyModel, IExpert
     {
+        public int Id { get; set; }
         public string Name { get; set;  }
     }
 }
