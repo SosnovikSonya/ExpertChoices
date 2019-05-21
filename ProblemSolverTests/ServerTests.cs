@@ -163,10 +163,10 @@ namespace ProblemSolverTests
         {
             var user = new User
             {
-                Email = "asd2@asd.asd",
-                FirstName = "asd2",
-                LastName = "asd2",
-                Password = "asd2",
+                Email = "asd1@asd.asd",
+                FirstName = "asd1",
+                LastName = "asd1",
+                Password = "asd1",
                 IsApproved = false,
                 Role = 4,
 
@@ -274,26 +274,20 @@ namespace ProblemSolverTests
         public void GetSolution()
         {
             var contr = new ProblemsController();
-            //contr.CreateNewProblem(problem);
+            var solution1 = contr.GetSolution(7);
 
-            var solution = contr.GetSolution(14);
+
+            var solver = new ProblemSolver<ExpertChoicesModels.Problem, ExpertChoicesModels.Expert, ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>(problem);
+            var solution2 = solver.SolveTheProblem();
+
         }
 
 
         [TestMethod]
         public void SolverTest()
         {
-            //var abstractedProblem = 
-
             var solver = new ProblemSolver<ExpertChoicesModels.Problem, ExpertChoicesModels.Expert, ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>(problem);
                 
-                
-                
-                //<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>);
-            //var asd = new ProblemSolver<ExpertChoicesModels.Problem>(problem);
-            //var solver = new ProblemSolver.ProblemSolver(problem as IProblem<IExpert, IExpert, IAlternative>);
-
-            //Server to Analytic
             var solution = solver.SolveTheProblem();
         }
     }

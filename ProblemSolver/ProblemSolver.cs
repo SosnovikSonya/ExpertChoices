@@ -34,8 +34,8 @@ namespace ProblemSolver
         /// </summary>
         public ProblemSolution SolveTheProblem()
         {
-            _expertsEstimationsMatrix = GetFilledMatrix(ProblemToSolve.ExpertsEstimations);
-            _alternativesEstimationsMatrix = GetFilledMatrix(ProblemToSolve.AlternativesEstimations);
+            _expertsEstimationsMatrix = GetFilledMatrixExperts(ProblemToSolve.ExpertsEstimations);
+            _alternativesEstimationsMatrix = GetFilledMatrixAlternatives(ProblemToSolve.AlternativesEstimations);
 
             ProblemSolution.ExpertsCompitency = EvaluateExpertsCompitency();
             ProblemSolution.ExpertsDispersion = EvaluateExpertsDispersion();
@@ -53,20 +53,31 @@ namespace ProblemSolver
                 .ToList();
         }
 
-        private List<TKey> GetObjectsOfExpertsEstimations<TKey>(List<Estimation<TEstimator, TKey>> expertEstimations)
+        private List<TEstimatedExpert> GetObjectsOfEstimationsExperts(List<Estimation<TEstimator, TEstimatedExpert>> expertEstimations)
+        {
+            return expertEstimations
+                .SelectMany(estimation => estimation.Estimated)
+                .Select(pair => pair.Key)                
+                .GroupBy(est => est.Name)
+                .Select(g => g.First())
+                .ToList();
+        }
+
+        private List<TEstimatedAlternative> GetObjectsOfEstimationsAlternatives(List<Estimation<TEstimator, TEstimatedAlternative>> expertEstimations)
         {
             return expertEstimations
                 .SelectMany(estimation => estimation.Estimated)
                 .Select(pair => pair.Key)
-                .Distinct()
+                .GroupBy(est => est.Name)
+                .Select(g => g.First())
                 .ToList();
         }
 
-        private Matrix<TEstimator, TKey> GetFilledMatrix<TKey>(List<Estimation<TEstimator, TKey>> expertEstimations)
+        private Matrix<TEstimator, TEstimatedExpert> GetFilledMatrixExperts(List<Estimation<TEstimator, TEstimatedExpert>> estimations)
         {
-            var estimators = GetEstimators(expertEstimations);
-            var estimatings = GetObjectsOfExpertsEstimations(expertEstimations);
-            var matrix = new Matrix<TEstimator, TKey>()
+            var estimators = GetEstimators(estimations);
+            var estimatings = GetObjectsOfEstimationsExperts(estimations);
+            var matrix = new Matrix<TEstimator, TEstimatedExpert>()
             {
                 Array = new int?[estimators.Count, estimatings.Count],
                 Raws = estimators,
@@ -84,10 +95,10 @@ namespace ProblemSolver
                         throw new InvalidOperationException("Invalid data, duplication detected");
                     }
 
-                    var estimationOfExpert = expertEstimations
-                        .Single(estimation => estimation.Estimator.Equals(estimators[i]))
+                    var estimationOfExpert = estimations
+                        .Single(estimation => estimation.Estimator.Name.Equals(estimators[i].Name))
                         .Estimated
-                        .Where(estimated => estimated.Key.Equals(estimatings[j]));
+                        .Where(estimated => estimated.Key.Name.Equals(estimatings[j].Name));
                     if (estimationOfExpert.Any())
                     {
                         matrix.Array[i, j] = estimationOfExpert
@@ -100,6 +111,46 @@ namespace ProblemSolver
 
             return matrix;
         }
+
+        private Matrix<TEstimator, TEstimatedAlternative> GetFilledMatrixAlternatives(List<Estimation<TEstimator, TEstimatedAlternative>> estimations)
+        {
+            var estimators = GetEstimators(estimations);
+            var estimatings = GetObjectsOfEstimationsAlternatives(estimations);
+            var matrix = new Matrix<TEstimator, TEstimatedAlternative>()
+            {
+                Array = new int?[estimators.Count, estimatings.Count],
+                Raws = estimators,
+                Columns = estimatings
+            };
+
+            //fill array
+            for (int i = 0; i < estimators.Count; i++)
+            {
+                for (int j = 0; j < estimatings.Count; j++)
+                {
+
+                    if (matrix.Array[i, j] != null)
+                    {
+                        throw new InvalidOperationException("Invalid data, duplication detected");
+                    }
+
+                    var estimationOfExpert = estimations
+                        .Single(estimation => estimation.Estimator.Name.Equals(estimators[i].Name))
+                        .Estimated
+                        .Where(estimated => estimated.Key.Name.Equals(estimatings[j].Name));
+                    if (estimationOfExpert.Any())
+                    {
+                        matrix.Array[i, j] = estimationOfExpert
+                            .Single()
+                            .Value;
+                    }
+
+                }
+            }
+
+            return matrix;
+        }
+
 
         /// <summary>
         /// Returnes AlternativesDispersion coefficient
@@ -146,7 +197,8 @@ namespace ProblemSolver
             {
                 for (int j = 0; j < _alternativesEstimationsMatrix.Columns.Count; j++)
                 {
-                    totalSum += (int)_alternativesEstimationsMatrix.Array[i, j] * ProblemSolution.ExpertsCompitency[_alternativesEstimationsMatrix.Raws[i]];
+                    var targetExpert = ProblemSolution.ExpertsCompitency.Single(pair => pair.Key.Name == _alternativesEstimationsMatrix.Raws[i].Name);
+                    totalSum += (int)_alternativesEstimationsMatrix.Array[i, j] * targetExpert.Value;
                 }
             }
             for (int j = 0; j < _alternativesEstimationsMatrix.Columns.Count; j++)
@@ -155,7 +207,8 @@ namespace ProblemSolver
 
                 for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
                 {
-                    AltEstimationSum += (int)_alternativesEstimationsMatrix.Array[i, j] * ProblemSolution.ExpertsCompitency[_alternativesEstimationsMatrix.Raws[i]];
+                    var targetExpert = ProblemSolution.ExpertsCompitency.Single(pair => pair.Key.Name == _alternativesEstimationsMatrix.Raws[i].Name);
+                    AltEstimationSum += (int)_alternativesEstimationsMatrix.Array[i, j] * targetExpert.Value;
                 }
 
                 var AlternativesDispersion = Math.Round(AltEstimationSum / totalSum, 3);

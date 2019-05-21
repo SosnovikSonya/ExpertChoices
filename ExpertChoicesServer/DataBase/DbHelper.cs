@@ -111,7 +111,7 @@ namespace ExpertChoicesServer.DataBase
 
         public static void CreateEtimationOnExpert(EstimationOnExpert est)
         {
-            var query = "insert into EstimationOnExpert values(@IdEstimator, @IdProblem, @IdEstimatedExpert, @Value) ";
+            var query = "insert into EstimationOnExpert values(@IdEstimator, @IdEstimatedExpert, @IdProblem, @Value) ";
             ExecuteQuery(query, est);
         }
 
@@ -167,7 +167,7 @@ namespace ExpertChoicesServer.DataBase
 
         public static List<dynamic> GetAlternativesPreferencies(int problemId)
         {
-            var query = $@"select a.Name, ad.Value from AlternativePreferency ap 
+            var query = $@"select a.Name, ap.Value from AlternativePreferency ap 
                 join Alternative a on a.IdAlternative = ap.IdAlternative
                 where IdProblem = {problemId}";
             return ExecuteQueryWithResult<dynamic>(query);
@@ -175,7 +175,7 @@ namespace ExpertChoicesServer.DataBase
 
         public static List<dynamic> GetExpertDispersions(int problemId)
         {
-            var query = $@"select a.Name, ad.Value from ExpertDispersion ed 
+            var query = $@"select a.Name, ed.Value from ExpertDispersion ed 
                 join Expert a on a.IdExpert = ed.IdExpert
                 where IdProblem = {problemId}";
             return ExecuteQueryWithResult<dynamic>(query);
@@ -183,7 +183,7 @@ namespace ExpertChoicesServer.DataBase
 
         public static List<dynamic> GetExpertCompitencies(int problemId)
         {
-            var query = $@"select a.Name, ad.Value from ExpertCompitency ec 
+            var query = $@"select a.Name, ec.Value from ExpertCompitency ec 
                 join Expert a on a.IdExpert = ec.IdExpert
                 where IdProblem = {problemId}";
             return ExecuteQueryWithResult<dynamic>(query);
@@ -201,6 +201,30 @@ namespace ExpertChoicesServer.DataBase
             var query = $@"select * from EstimationOnExpert
                 where IdProblem = {problemId}";
             return ExecuteQueryWithResult<EstimationOnExpert>(query);
+        }
+
+        public static void CreateExpertCompitency(ExpertCompitency obj)
+        {
+            var query = "insert into ExpertCompitency values(@IdProblem, @IdExpert, @Value) ";
+            ExecuteQuery(query, obj);
+        }
+
+        public static void CreateExpertDispersion(ExpertDispersion obj)
+        {
+            var query = "insert into ExpertDispersion values(@IdProblem, @IdExpert, @Value) ";
+            ExecuteQuery(query, obj);
+        }
+
+        public static void CreateAlternativeDispersion(AlternativeDispersion obj)
+        {
+            var query = "insert into AlternativeDispersion values(@IdProblem, @IdAlternative, @Value) ";
+            ExecuteQuery(query, obj);
+        }
+
+        public static void CreateAlternativePreferency(AlternativePreferency obj)
+        {
+            var query = "insert into AlternativePreferency values(@IdProblem, @IdAlternative, @Value) ";
+            ExecuteQuery(query, obj);
         }
     }
 }
