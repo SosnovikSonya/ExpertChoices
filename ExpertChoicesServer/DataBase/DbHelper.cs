@@ -111,7 +111,7 @@ namespace ExpertChoicesServer.DataBase
 
         public static void CreateEtimationOnExpert(EstimationOnExpert est)
         {
-            var query = "insert into EstimationOnExpert values(@IdEstimator, @IdEstimatedExpert, @IdProblem, @Value) ";
+            var query = "insert into EstimationOnExpert values(@IdEstimator, @IdExpert, @IdProblem, @Value) ";
             ExecuteQuery(query, est);
         }
 
@@ -140,7 +140,7 @@ namespace ExpertChoicesServer.DataBase
                         set Value = @Value
                         where IdProblem = @IdProblem
                         and IdEstimator = @IdEstimator
-                        and IdEstimatedExpert = @IdEstimatedExpert";
+                        and IdExpert = @IdExpert";
             ExecuteQuery(query, estimation);
         }
 
@@ -181,9 +181,9 @@ namespace ExpertChoicesServer.DataBase
             return ExecuteQueryWithResult<dynamic>(query);
         }
 
-        public static List<dynamic> GetExpertCompitencies(int problemId)
+        public static List<dynamic> GetExpertCompetencies(int problemId)
         {
-            var query = $@"select a.Name, ec.Value from ExpertCompitency ec 
+            var query = $@"select a.Name, ec.Value from ExpertCompetency ec 
                 join Expert a on a.IdExpert = ec.IdExpert
                 where IdProblem = {problemId}";
             return ExecuteQueryWithResult<dynamic>(query);
@@ -203,9 +203,9 @@ namespace ExpertChoicesServer.DataBase
             return ExecuteQueryWithResult<EstimationOnExpert>(query);
         }
 
-        public static void CreateExpertCompitency(ExpertCompitency obj)
+        public static void CreateExpertCompetency(ExpertCompetency obj)
         {
-            var query = "insert into ExpertCompitency values(@IdProblem, @IdExpert, @Value) ";
+            var query = "insert into ExpertCompetency values(@IdProblem, @IdExpert, @Value) ";
             ExecuteQuery(query, obj);
         }
 
@@ -225,6 +225,12 @@ namespace ExpertChoicesServer.DataBase
         {
             var query = "insert into AlternativePreferency values(@IdProblem, @IdAlternative, @Value) ";
             ExecuteQuery(query, obj);
+        }
+
+        public static List<int> GetEstimatorsOfProblem(int problemId)
+        {
+            var query = $@"select distinct IdEstimator from EstimationOnExpert where IdProblem =  {problemId}";
+            return ExecuteQueryWithResult<int>(query);
         }
     }
 }

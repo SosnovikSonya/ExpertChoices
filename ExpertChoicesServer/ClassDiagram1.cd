@@ -28,17 +28,17 @@
       <FileName>DataBase\AlternativeDispersion.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ExpertChoicesServer.DataBase.AlternativesPreferency">
+  <Class Name="ExpertChoicesServer.DataBase.AlternativePreferency">
     <Position X="8.25" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAgAAAAAgAAAAAAA=</HashCode>
-      <FileName>DataBase\AlternativesPreferency.cs</FileName>
+      <FileName>DataBase\AlternativePreferency.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ExpertChoicesServer.DataBase.DbHelper">
-    <Position X="10.75" Y="0.5" Width="2" />
+    <Position X="10.75" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>EAAYAgQAAABAEKAgAAABAEAAAAAIABAAEAIAAAAAAAA=</HashCode>
+      <HashCode>EAAYAgQkgABBEKAgACABAEAAAAAoEBQIEAYABAAAAEA=</HashCode>
       <FileName>DataBase\DbHelper.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -63,18 +63,18 @@
       <FileName>DataBase\Expert.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ExpertChoicesServer.DataBase.ExpertsCompitency">
+  <Class Name="ExpertChoicesServer.DataBase.ExpertCompetency">
     <Position X="6.25" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAIAAAgAAAAAgAAAAAAA=</HashCode>
-      <FileName>DataBase\ExpertsCompitency.cs</FileName>
+      <FileName>DataBase\ExpertCompetency.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ExpertChoicesServer.DataBase.ExpertsDispersion">
+  <Class Name="ExpertChoicesServer.DataBase.ExpertDispersion">
     <Position X="8.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAIAAAgAAAAAgAAAAAAA=</HashCode>
-      <FileName>DataBase\ExpertsDispersion.cs</FileName>
+      <FileName>DataBase\ExpertDispersion.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ExpertChoicesServer.DataBase.Problem">
@@ -101,7 +101,7 @@
   <Class Name="ExpertChoicesServer.Models.ModelMapper">
     <Position X="6.5" Y="5.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAgAACgCgAAAAAAAAA=</HashCode>
+      <HashCode>AAACAEAAAAAAAAAAAABAAAAAAAAgAACgCgAAAAAAAAA=</HashCode>
       <FileName>Models\ModelMapper.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -8,7 +8,7 @@ namespace ProblemSolver
 {
     public class Estimation<TExpert, TEstimated> where TExpert: IExpert
     {
-        public TExpert Estimator { get; set; }
-        public Dictionary<TEstimated, int?> Estimated { get; set; }
+        public virtual TExpert Estimator { get; set; }
+        public virtual Dictionary<TEstimated, int?> Estimated { get; set; }
     }
 }

@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace ProblemSolver
 {
-    public class ProblemSolver<TProblem, TEstimator, TEstimatedExpert, TEstimatedAlternative>
+    public class ProblemSolver<TProblem, TEstimator, TExpert, TEstimatedAlternative>
         where TEstimator : IExpert
-        where TEstimatedExpert : IExpert
+        where TExpert : IExpert
         where TEstimatedAlternative : IAlternative
-        where TProblem : IProblem<TEstimator, TEstimatedExpert, TEstimatedAlternative>
+        where TProblem : IProblem<TEstimator, TExpert, TEstimatedAlternative>
 
 
 
 
         //<T> where T: IProblem<IExpert, IExpert, IAlternative>
     {
-        private Matrix<TEstimator, TEstimatedExpert> _expertsEstimationsMatrix;
+        private Matrix<TEstimator, TExpert> _expertsEstimationsMatrix;
         private Matrix<TEstimator, TEstimatedAlternative> _alternativesEstimationsMatrix;
         public ProblemSolution ProblemSolution { get; }      
 
@@ -37,7 +37,7 @@ namespace ProblemSolver
             _expertsEstimationsMatrix = GetFilledMatrixExperts(ProblemToSolve.ExpertsEstimations);
             _alternativesEstimationsMatrix = GetFilledMatrixAlternatives(ProblemToSolve.AlternativesEstimations);
 
-            ProblemSolution.ExpertsCompitency = EvaluateExpertsCompitency();
+            ProblemSolution.ExpertsCompetency = EvaluateExpertsCompetency();
             ProblemSolution.ExpertsDispersion = EvaluateExpertsDispersion();
             ProblemSolution.AlternativesDispersion = EvaluateAlternativesDispersion();
             ProblemSolution.AlternativesPreferency = EvaluateAlternativesPreferency();   
@@ -53,7 +53,7 @@ namespace ProblemSolver
                 .ToList();
         }
 
-        private List<TEstimatedExpert> GetObjectsOfEstimationsExperts(List<Estimation<TEstimator, TEstimatedExpert>> expertEstimations)
+        private List<TExpert> GetObjectsOfEstimationsExperts(List<Estimation<TEstimator, TExpert>> expertEstimations)
         {
             return expertEstimations
                 .SelectMany(estimation => estimation.Estimated)
@@ -73,11 +73,11 @@ namespace ProblemSolver
                 .ToList();
         }
 
-        private Matrix<TEstimator, TEstimatedExpert> GetFilledMatrixExperts(List<Estimation<TEstimator, TEstimatedExpert>> estimations)
+        private Matrix<TEstimator, TExpert> GetFilledMatrixExperts(List<Estimation<TEstimator, TExpert>> estimations)
         {
             var estimators = GetEstimators(estimations);
             var estimatings = GetObjectsOfEstimationsExperts(estimations);
-            var matrix = new Matrix<TEstimator, TEstimatedExpert>()
+            var matrix = new Matrix<TEstimator, TExpert>()
             {
                 Array = new int?[estimators.Count, estimatings.Count],
                 Raws = estimators,
@@ -197,7 +197,7 @@ namespace ProblemSolver
             {
                 for (int j = 0; j < _alternativesEstimationsMatrix.Columns.Count; j++)
                 {
-                    var targetExpert = ProblemSolution.ExpertsCompitency.Single(pair => pair.Key.Name == _alternativesEstimationsMatrix.Raws[i].Name);
+                    var targetExpert = ProblemSolution.ExpertsCompetency.Single(pair => pair.Key.Name == _alternativesEstimationsMatrix.Raws[i].Name);
                     totalSum += (int)_alternativesEstimationsMatrix.Array[i, j] * targetExpert.Value;
                 }
             }
@@ -207,7 +207,7 @@ namespace ProblemSolver
 
                 for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
                 {
-                    var targetExpert = ProblemSolution.ExpertsCompitency.Single(pair => pair.Key.Name == _alternativesEstimationsMatrix.Raws[i].Name);
+                    var targetExpert = ProblemSolution.ExpertsCompetency.Single(pair => pair.Key.Name == _alternativesEstimationsMatrix.Raws[i].Name);
                     AltEstimationSum += (int)_alternativesEstimationsMatrix.Array[i, j] * targetExpert.Value;
                 }
 
@@ -218,9 +218,9 @@ namespace ProblemSolver
         }
 
         /// <summary>
-        /// Returnes ExpertsCompitency coefficient
+        /// Returnes ExpertsCompetency coefficient
         /// </summary>
-        private Dictionary<IExpert, double> EvaluateExpertsCompitency()
+        private Dictionary<IExpert, double> EvaluateExpertsCompetency()
         {
             var result = new Dictionary<IExpert, double>();
             var totalSum = 0;
@@ -247,8 +247,8 @@ namespace ProblemSolver
                         expertEstimationSum += (int)_expertsEstimationsMatrix.Array[i, j];
                     }
                 }
-                double expertsCompitency = expertEstimationSum / totalSum;
-                result.Add(_expertsEstimationsMatrix.Columns[j], expertsCompitency);
+                double expertsCompetency = expertEstimationSum / totalSum;
+                result.Add(_expertsEstimationsMatrix.Columns[j], expertsCompetency);
             }
             return result;
         }

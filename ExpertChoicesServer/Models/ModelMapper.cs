@@ -72,38 +72,36 @@ namespace ExpertChoicesServer.Models
             };
         }
 
-        public static List<DataBase.EstimationOnExpert> ConvertToDBEstimation(Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert> estimation)
+        public static List<DataBase.EstimationOnExpert> ConvertToDBEstimationExpert(List<ExpertChoicesModels.EstimationModel> estimations)
         {
             var expertEstimationList = new List<DataBase.EstimationOnExpert>();
-            foreach (var estimatedExpert in estimation.Estimated)
+            foreach (var estimation in estimations)
             {
                 expertEstimationList.Add(
                     new DataBase.EstimationOnExpert
                     {
-                        IdEstimatedExpert = estimatedExpert.Key.Id,
-                        IdEstimator = estimation.Estimator.Id,
-                        Value = estimatedExpert.Value
+                        IdExpert = estimation.Id,
+                        Value = estimation.Value
                     });
 
             }
             return expertEstimationList;
         }
 
-        public static List<DataBase.EstimationOnAlternative> ConvertToDBEstimation(Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative> estimation)
+        public static List<DataBase.EstimationOnAlternative> ConvertToDBEstimationAlternative(List<ExpertChoicesModels.EstimationModel> estimations)
         {
             var expertEstimationList = new List<DataBase.EstimationOnAlternative>();
-            foreach (var estimatedAlternative in estimation.Estimated)
+            foreach (var estimation in estimations)
             {
                 expertEstimationList.Add(
                     new DataBase.EstimationOnAlternative
                     {
-                        IdEstimatedAlternative = estimatedAlternative.Key.Id,
-                        IdEstimator = estimation.Estimator.Id,
-                        Value = estimatedAlternative.Value
+                        IdEstimatedAlternative = estimation.Id,
+                        Value = estimation.Value
                     });
 
             }
-            return expertEstimationList;
+            return expertEstimationList;            
         }
 
         public static Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative> ConvertToEstimationModel(List<DataBase.EstimationOnAlternative> estimations)
@@ -138,7 +136,7 @@ namespace ExpertChoicesServer.Models
                 model.Estimated.Add(
                     new ExpertChoicesModels.Expert
                     {
-                        Id = estimation.IdEstimatedExpert
+                        Id = estimation.IdExpert
                     },
                     estimation.Value
                     );

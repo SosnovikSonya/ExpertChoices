@@ -50,6 +50,7 @@
     <Compile Include="BodyModel.cs" />
     <Compile Include="CreateProblemPostResponseModel.cs" />
     <Compile Include="Expert.cs" />
+    <Compile Include="EstimationModel.cs" />
     <Compile Include="GetPendingUsersModel.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="Problem.cs" />

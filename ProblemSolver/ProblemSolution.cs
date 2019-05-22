@@ -8,13 +8,13 @@ namespace ProblemSolver
 {
     public class ProblemSolution
     { 
-        public Dictionary<IExpert, double> ExpertsCompitency { get; set; }
+        public Dictionary<IExpert, double> ExpertsCompetency { get; set; }
         public Dictionary<IExpert, double> ExpertsDispersion { get; set; }
         public Dictionary<IAlternative, double> AlternativesPreferency { get; set; }
         public Dictionary<IAlternative, double> AlternativesDispersion { get; set; }
         public ProblemSolution()
         {
-            ExpertsCompitency = new Dictionary<IExpert, double>();
+            ExpertsCompetency = new Dictionary<IExpert, double>();
             ExpertsDispersion = new Dictionary<IExpert, double>();
             AlternativesPreferency = new Dictionary<IAlternative, double>();
             AlternativesDispersion = new Dictionary<IAlternative, double>();

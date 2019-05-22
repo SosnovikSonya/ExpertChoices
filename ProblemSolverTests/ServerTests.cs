@@ -16,6 +16,7 @@ namespace ProblemSolverTests
         ExpertChoicesModels.Expert expert1;
         ExpertChoicesModels.Expert expert2;
         ExpertChoicesModels.Expert expert3;
+
         ExpertChoicesModels.Problem problem;
 
         ExpertChoicesModels.Alternative alt1;
@@ -53,6 +54,8 @@ namespace ProblemSolverTests
                 Name = "Eva"
             };
 
+           
+
             //Analytic
             problem = new ExpertChoicesModels.Problem
             {
@@ -80,8 +83,8 @@ namespace ProblemSolverTests
                 Estimator = expert1,
                 Estimated = new Dictionary<ExpertChoicesModels.Expert, int?>
                 {
-                    { expert2, 7},
-                    { expert3, 6},
+                    { expert2, null},
+                    { expert3, null},
                 }
             };
 
@@ -90,8 +93,8 @@ namespace ProblemSolverTests
                 Estimator = expert2,
                 Estimated = new Dictionary<ExpertChoicesModels.Expert, int?>
                 {
-                    { expert1, 9},
-                    { expert3, 10},
+                    { expert1, null},
+                    { expert3, null},
                 }
             };
 
@@ -100,8 +103,8 @@ namespace ProblemSolverTests
                 Estimator = expert3,
                 Estimated = new Dictionary<ExpertChoicesModels.Expert, int?>
                 {
-                    { expert1, 5},
-                    { expert2, 3},
+                    { expert1, null},
+                    { expert2, null},
                 }
             };
 
@@ -111,9 +114,9 @@ namespace ProblemSolverTests
                 Estimator = expert1,
                 Estimated = new Dictionary<ExpertChoicesModels.Alternative, int?>
                 {
-                    { alt1, 7},
-                    { alt2, 8},
-                    { alt3, 7}
+                    { alt1, null},
+                    { alt2, null},
+                    { alt3, null}
                 }
             };
 
@@ -122,9 +125,9 @@ namespace ProblemSolverTests
                 Estimator = expert2,
                 Estimated = new Dictionary<ExpertChoicesModels.Alternative, int?>
                 {
-                    { alt1, 8},
-                    { alt2, 5},
-                    { alt3, 8}
+                    { alt1, null},
+                    { alt2, null},
+                    { alt3, null}
                 }
             };
 
@@ -133,9 +136,9 @@ namespace ProblemSolverTests
                 Estimator = expert3,
                 Estimated = new Dictionary<ExpertChoicesModels.Alternative, int?>
                 {
-                    { alt1, 7},
-                    { alt2, 9},
-                    { alt3, 1}
+                    { alt1, null},
+                    { alt2, null},
+                    { alt3, null}
                 }
             };
 
@@ -205,7 +208,7 @@ namespace ProblemSolverTests
         {
             var est = new EstimationOnExpert
             {
-                IdEstimatedExpert = 1,
+                IdExpert = 1,
                 IdEstimator = 2,
                 IdProblem = 1,
                 Value = 5
@@ -242,16 +245,16 @@ namespace ProblemSolverTests
         [TestMethod]
         public void CreateEstOnExpertFromRequest()
         {           
-            var contr = new ProblemsController();
-            contr.SubmitEstimationsOnExperts(11, expEstimations1);
+            //var contr = new ProblemsController();
+            //contr.SubmitEstimationsOnExperts(11, expEstimations1);
 
         }
 
         [TestMethod]
         public void CreateEstOnAlternativeFromRequest()
         {
-            var contr = new ProblemsController();
-            contr.SubmitEstimationsOnAlternatives(11, altEstimations1);
+            //var contr = new ProblemsController();
+            //contr.SubmitEstimationsOnAlternatives(11, altEstimations1);
 
         }
 
@@ -260,7 +263,7 @@ namespace ProblemSolverTests
         {
             var est = new EstimationOnExpert
             {
-                IdEstimatedExpert = 1,
+                IdExpert = 1,
                 IdEstimator = 3,
                 IdProblem = 11,
                 Value = 5
@@ -273,8 +276,9 @@ namespace ProblemSolverTests
         [TestMethod]
         public void GetSolution()
         {
+            var asd = problem.ToString();
             var contr = new ProblemsController();
-            var solution1 = contr.GetSolution(7);
+            var solution1 = contr.GetSolution(18);
 
 
             var solver = new ProblemSolver<ExpertChoicesModels.Problem, ExpertChoicesModels.Expert, ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>(problem);

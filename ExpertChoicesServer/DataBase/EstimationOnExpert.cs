@@ -9,8 +9,8 @@ namespace ExpertChoicesServer.DataBase
     {
         public int IdEstimationOnExpert { get; set; }
         public int IdEstimator { get; set; }
-        public int IdEstimatedExpert { get; set; }
-        public int? Value { get; set; }
+        public int IdExpert { get; set; }
         public int IdProblem { get; set; }
+        public int? Value { get; set; }
     }
 }

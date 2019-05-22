@@ -5,9 +5,9 @@ using System.Web;
 
 namespace ExpertChoicesServer.DataBase
 {
-    public class ExpertCompitency
+    public class ExpertCompetency
     {
-        public int IdExpertsCompitency { get; set; }
+        public int IdExpertsCompetency { get; set; }
         public int IdProblem { get; set; }
         public int IdExpert { get; set; }
         public float Value { get; set; }
