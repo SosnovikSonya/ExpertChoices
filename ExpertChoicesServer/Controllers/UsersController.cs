@@ -1,5 +1,6 @@
 ﻿using ExpertChoicesModels;
 using ExpertChoicesServer.DataBase;
+using ExpertChoicesServer.Extensions;
 using ExpertChoicesServer.Models;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,19 @@ namespace ExpertChoicesServer.Controllers
 {
     public class UsersController : ApiController
     {
+        DataBase.User _currentUser;
+
         // GET: api/Users
         [Route("api/users")]
         [HttpGet]
         public GetPendingUsersModel GetPendingUsers()
         {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedAdmin(_currentUser))
+            {
+                return null;
+            }
+
             var list = DbHelper.GetPendingUsers();
             var response = new GetPendingUsersModel()
             {
@@ -28,24 +37,38 @@ namespace ExpertChoicesServer.Controllers
         // PUT: api/Users/5
         [Route("api/users/{id}")]
         [HttpPut]
-        public string ApproveUser(int id)
+        public void ApproveUser(int id)
         {
-            return "value";
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedAdmin(_currentUser))
+            {
+                return;
+            }
+
+            DbHelper.ApproveUser(id);
         }
 
         // DELETE: api/Users/5
         [Route("api/users/{id}")]
         [HttpDelete]
-        public string DeleteUser(int id)
+        public void DeleteUser(int id)
         {
-            return "value";
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedAdmin(_currentUser))
+            {
+                return ;
+            }
+
+            DbHelper.DeleteUser(_currentUser.Email, _currentUser.Password);
         }
 
         // POST: api/users/Register
         [Route("api/users/Register")]
         [HttpPost]
-        public void Register([FromBody]string value)
+        public void Register([FromBody]ExpertChoicesModels.RegisterUserPostRequestModel user)
         {
+            DbHelper.CreateUser(ModelMapper.ConvertToDBUser(user), user.Role.HasFlag(UserRole.Expert));
+            return;
         }
 
         // POST: api/users/Authorize

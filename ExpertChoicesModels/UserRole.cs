@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExpertChoicesModels
 {
+    [Flags]
     public enum UserRole
     {
         Null = 0,

@@ -1,4 +1,5 @@
-﻿using ProblemSolver;
+﻿using ExpertChoicesServer.Extensions;
+using ProblemSolver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,16 @@ namespace ExpertChoicesServer.Models
                 Password = null,
                 Role = (ExpertChoicesModels.UserRole)userDB.Role
             };
+        }
+
+        public static DataBase.User ConvertToDBUser(ExpertChoicesModels.RegisterUserPostRequestModel userModel)
+        {
+            var user = AuthHelper.GetUserFromAuthToken(userModel.AuthToken);
+            user.FirstName = userModel.Name.Split(' ')[0];
+            user.LastName = userModel.Name.Split(' ')[1];
+            user.IsApproved = false;
+            user.Role = (int)userModel.Role;
+            return user;
         }
 
         public static ExpertChoicesModels.Alternative ConvertToResponseAlternative(DataBase.Alternative alternativeDB)
@@ -80,7 +91,7 @@ namespace ExpertChoicesServer.Models
                 expertEstimationList.Add(
                     new DataBase.EstimationOnExpert
                     {
-                        IdExpert = estimation.Id,
+                        IdEstimatedExpert = estimation.Id,
                         Value = estimation.Value
                     });
 
@@ -136,7 +147,7 @@ namespace ExpertChoicesServer.Models
                 model.Estimated.Add(
                     new ExpertChoicesModels.Expert
                     {
-                        Id = estimation.IdExpert
+                        Id = estimation.IdEstimatedExpert
                     },
                     estimation.Value
                     );

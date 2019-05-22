@@ -31,39 +31,93 @@ namespace ExpertChoicesServer.DataBase
 
         public static List<User> GetPendingUsers()
         {
-            var query = "select * from [dbo].[User] where IsApproved = 0";
+            var query = "select * from [User] where IsApproved = 0";
             return ExecuteQueryWithResult<User>(query);
         }
 
-        public static void RegisterUser(User user)
+        public static void CreateUser(User user, bool isExpert)
         {
             user.IsApproved = false;
-            var query = "insert into [dbo].[User] values(@Email, @Password, @FirstName, @LastName, @Role, @IsApproved) ";
+            var query = "insert into [User] values(@Email, @Password, @FirstName, @LastName, @IsApproved, @Role) ";
             ExecuteQuery(query, user);
-        }      
+
+            if (isExpert)
+            {
+                query = $"select iduser from [user] where  email = '{user.Email}' and password = '{user.Password}'";
+                var iduser =  ExecuteQueryWithResult<int>(query).Single();
+                CreateExpert(new Expert
+                {
+                    IdUser = iduser,
+                    Name = $"{user.FirstName} {user.LastName}"
+                });
+            }
+        }
+
+        public static void ApproveUser(int id)
+        {
+            var query = $"update [User] set isapproved = 1 where iduser = {id} select iduser from [user] where iduser = {id}";
+            ExecuteQueryWithResult<int>(query);
+        }
 
         public static User GetUser(string email, string password)
         {
-            var query = $"select * from [dbo].[user] where email = '{email}' and password = '{password}'";
+            var query = $"select * from [user] where email = '{email}' and password = '{password}'";
             return ExecuteQueryWithResult<User>(query).SingleOrDefault();
         }
 
-        public static List<EstimationOnExpert> CheckForEstimationsOnExperts(int userId)
+        public static User DeleteUser(string email, string password)
+        {
+            var query = $"delete from [user] where email = '{email}' and password = '{password}'";
+            return ExecuteQueryWithResult<User>(query).SingleOrDefault();
+        }
+
+        public static List<Problem> CheckForAssignedProblems(int userId)
+        {
+            var query = $@"select distinct IdProblem from EstimationOnExpert es
+                        join Expert ex on es.IdEstimator = ex.IdExpert
+                        join [user] u on u.IdUser = ex.IdUser
+                        where u.IdUser = {userId}
+                        and value is null";
+            var problems1 = ExecuteQueryWithResult<int>(query);
+
+            query = $@"select distinct IdProblem from EstimationOnAlternative ea
+                    join Expert ex on ea.IdEstimator = ex.IdExpert
+                    join [user] u on u.IdUser = ex.IdUser
+                    where u.IdUser = {userId}
+                    and value is null";
+            var problems2 = ExecuteQueryWithResult<int>(query);
+
+            problems1.AddRange(problems2);
+            problems1.Distinct();
+
+            if (problems1.Count == 0)
+            {
+                return new List<Problem>();
+            }            
+
+            query = $@"select * from problem where idproblem in ({string.Join(", ", problems1)})";
+
+            return ExecuteQueryWithResult<Problem>(query);
+        }
+
+        public static List<EstimationOnExpert> CheckForEstimationsOnExperts(int userId, int problemId)
         {
             var query = $@"select * from EstimationOnExpert es
                         join Expert ex on es.IdEstimator = ex.IdExpert
-                        join [dbo].[user] u on u.IdUser = ex.IdUser
+                        join [user] u on u.IdUser = ex.IdUser
                         where u.IdUser = {userId}
+                        and idproblem = {problemId}
                         and value is null";
             return ExecuteQueryWithResult<EstimationOnExpert>(query);
         }
 
-        public static List<EstimationOnAlternative> CheckForEstimationsOnAlternative(int userId)
+        public static List<EstimationOnAlternative> CheckForEstimationsOnAlternative(int userId, int problemId)
         {
             var query = $@"select * from EstimationOnAlternative es                       
                         join Expert ex on es.IdEstimator = ex.IdExpert
-                        join [dbo].[user] u on u.IdUser = ex.IdUser
+                        join [user] u on u.IdUser = ex.IdUser
                         where u.IdUser = {userId}
+                        and idproblem = {problemId}
                         and value is null";
             return ExecuteQueryWithResult<EstimationOnAlternative>(query);
         }
@@ -73,6 +127,12 @@ namespace ExpertChoicesServer.DataBase
             var query = $@"select * from Problem
                         where idproblem = {problemId}";
             return ExecuteQueryWithResult<Problem>(query).SingleOrDefault();
+        }
+
+        public static void CreateExpert(Expert expert)
+        {
+            var query = "insert into Expert values(@IdUser, @Name) ";
+            ExecuteQuery(query, expert);
         }
 
         public static Expert GetExpertByUserId(int userId)
@@ -89,10 +149,16 @@ namespace ExpertChoicesServer.DataBase
             return ExecuteQueryWithResult<Expert>(query).SingleOrDefault();
         }
 
+        public static List<Expert> GetAllExperts()
+        {
+            var query = $@"select * from expert";
+            return ExecuteQueryWithResult<Expert>(query);
+        }
+
         public static Expert GetExpertByName(string name)
         {
             var query = $@"select * from expert
-                        where name = '{name}'";
+                        where name = N'{name}'";
             return ExecuteQueryWithResult<Expert>(query).SingleOrDefault();
         }
 
@@ -111,7 +177,7 @@ namespace ExpertChoicesServer.DataBase
 
         public static void CreateEtimationOnExpert(EstimationOnExpert est)
         {
-            var query = "insert into EstimationOnExpert values(@IdEstimator, @IdExpert, @IdProblem, @Value) ";
+            var query = "insert into EstimationOnExpert values(@IdEstimator, @IdEstimatedExpert, @IdProblem, @Value) ";
             ExecuteQuery(query, est);
         }
 
@@ -130,31 +196,28 @@ namespace ExpertChoicesServer.DataBase
         public static Alternative GetAlternativeByName(string name)
         {
             var query = $@"select * from Alternative
-                        where name = '{name}'";
+                        where name = N'{name}'";
             return ExecuteQueryWithResult<Alternative>(query).SingleOrDefault();
         }
 
         public static void UpdateEstimationOnExpert(EstimationOnExpert estimation)
         {
-            var query = @"update EstimationOnExpert
-                        set Value = @Value
-                        where IdProblem = @IdProblem
-                        and IdEstimator = @IdEstimator
-                        and IdExpert = @IdExpert";
-            ExecuteQuery(query, estimation);
+            var query = $@"update EstimationOnExpert
+                        set Value = {estimation.Value}
+                        where IdProblem = {estimation.IdProblem}
+                        and IdEstimator = {estimation.IdEstimator}
+                        and IdEstimatedExpert = {estimation.IdEstimatedExpert}";
+            ExecuteQueryWithResult<object>(query);
         }
 
-        public static void UpdateEstimationOnAlternative(EstimationOnAlternative estimation, string altName)
+        public static void UpdateEstimationOnAlternative(EstimationOnAlternative estimation)
         {
             var query = $@"update EstimationOnAlternative
-                        set value = @Value
-                        where IdEstimationOnAlternative in (
-                        select top 1 IdEstimationOnAlternative from EstimationOnAlternative ea
-                        join alternative a on ea.IdEstimatedAlternative = a.IdAlternative
-                        where ea.IdProblem = @IdProblem
-                        and IdEstimator = @IdEstimator
-                        and a.Name = '{altName}')";
-            ExecuteQuery(query, estimation);
+                        set value = {estimation.Value}
+                        where IdProblem = {estimation.IdProblem}
+                        and IdEstimator = {estimation.IdEstimator}
+                        and IdEstimatedAlternative = {estimation.IdEstimatedAlternative}";
+            ExecuteQueryWithResult<object>(query);
         }
 
         public static List<dynamic> GetAlternativeDispersions(int problemId)

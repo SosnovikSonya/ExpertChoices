@@ -167,18 +167,13 @@ namespace ProblemSolver
                 //calculate the estimates put on the alternative
                 for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
                 {
-                    if (_alternativesEstimationsMatrix.Array[i, j] != null)
-                    {
-                        altEstimationSum += (int)_alternativesEstimationsMatrix.Array[i, j];
-                    }
+                    altEstimationSum += (int)_alternativesEstimationsMatrix.Array[i, j];
+
                 }
                 Cj = (altEstimationSum / (_alternativesEstimationsMatrix.Columns.Count));
                 for (int i = 0; i < _alternativesEstimationsMatrix.Raws.Count; i++)
                 {
-                    if (_alternativesEstimationsMatrix.Array[i, j] != null)
-                    {
-                        numerator += Math.Pow((int)_alternativesEstimationsMatrix.Array[i, j] - Cj, 2);
-                    }
+                    numerator += Math.Pow((int)_alternativesEstimationsMatrix.Array[i, j] - Cj, 2);
                 }
                 var AlternativesDispersion = (numerator / (_alternativesEstimationsMatrix.Columns.Count));
                 result.Add(_alternativesEstimationsMatrix.Columns[j], AlternativesDispersion);

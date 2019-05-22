@@ -1,5 +1,6 @@
 ﻿using ExpertChoicesModels;
 using ExpertChoicesServer.DataBase;
+using ExpertChoicesServer.Extensions;
 using ExpertChoicesServer.Models;
 using ProblemSolver;
 using System;
@@ -13,80 +14,121 @@ namespace ExpertChoicesServer.Controllers
 {
     public class ProblemsController : ApiController
     {
+        DataBase.User _currentUser;
+
         // GET: api/Problems
         [Route("api/problems")]
         [HttpGet]
-        public ProblemListModel CheckForAssignedProblems()
+        public List<ExpertChoicesModels.Problem> CheckForAssignedProblems()
         {
-            var userModel = GetUserFromHeaders();
-            var userDB = DbHelper.GetUser(userModel.Email, userModel.Password);
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedExpert(_currentUser))
+            {
+                return null;
+            }
 
-            //if (userDB is null || (UserRole)userDB.Role != UserRole.Expert)
+            return DbHelper.CheckForAssignedProblems(_currentUser.IdUser).Select(dbent =>ModelMapper.ConvertToResponseProblem(dbent)).ToList();
+
+            //var assignedEstimationOnExpert = DbHelper.CheckForEstimationsOnExperts(_currentUser.IdUser, );
+            //var assignedEstimationOnAlternative = DbHelper.CheckForEstimationsOnAlternative(_currentUser.IdUser);
+
+            //var problemsModel = new List<ExpertChoicesModels.Problem>();
+
+
+            //foreach (var est in assignedEstimationOnExpert)
             //{
-            //    return null;
+            //    if (!problemsModel.Any(prob => prob.Id == est.IdProblem))
+            //    {
+            //        var problemDB = DbHelper.GetProblem(est.IdProblem);
+            //        //problemsModel.Add(ModelMapper.ConvertToResponseProblem(problemDB));
+            //        //if (problemsModel.Last().AlternativesEstimations is null)
+            //        //{
+            //        //    problemsModel.Last().AlternativesEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>>();
+            //        //}
+            //        //if (problemsModel.Last().ExpertsEstimations is null)
+            //        //{
+            //        //    problemsModel.Last().ExpertsEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>>();
+            //        //}
+
+            //    }
+            //    //var expEstimation = new Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>
+            //    //{
+            //    //    Estimator = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertByUserId(_currentUser.IdUser)),
+            //    //    Estimated = new Dictionary<ExpertChoicesModels.Expert, int?>()
+            //    //};
+            //    //var Expert = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertById(est.IdExpert));
+            //    //expEstimation.Estimated.Add(Expert, est.Value);
+            //    //problemsModel.Last().ExpertsEstimations.Add(expEstimation);
             //}
 
-            var assignedEstimationOnExpert = DbHelper.CheckForEstimationsOnExperts(userDB.IdUser);
-            var assignedEstimationOnAlternative = DbHelper.CheckForEstimationsOnAlternative(userDB.IdUser);
+            //foreach (var est in assignedEstimationOnAlternative)
+            //{
+            //    if (!problemsModel.Any(prob => prob.Id == est.IdProblem))
+            //    {
+            //        var problemDB = DbHelper.GetProblem(est.IdProblem);
+            //        problemsModel.Add(ModelMapper.ConvertToResponseProblem(problemDB));
+            //        //if (problemsModel.Last().AlternativesEstimations is null)
+            //        //{
+            //        //    problemsModel.Last().AlternativesEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>>();
+            //        //}
+            //        //if (problemsModel.Last().ExpertsEstimations is null)
+            //        //{
+            //        //    problemsModel.Last().ExpertsEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>>();
+            //        //}
+            //    }
+            //    //var altEstimation = new Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>
+            //    //{
+            //    //    Estimator = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertByUserId(_currentUser.IdUser)),
+            //    //    Estimated = new Dictionary<ExpertChoicesModels.Alternative, int?>()
+            //    //};
+            //    //var estimatedAlternative = ModelMapper.ConvertToResponseAlternative(DbHelper.GetAlternativeById(est.IdEstimatedAlternative));
+            //    //altEstimation.Estimated.Add(estimatedAlternative, est.Value);
+            //    //problemsModel.Last().AlternativesEstimations.Add(altEstimation);
+            //}
+           
+            //return problemsModel;
+        }
 
-            var problemsModel = new List<ExpertChoicesModels.Problem>();
-
-
-            foreach (var est in assignedEstimationOnExpert)
+        [Route("api/problems/{id}/Experts")]
+        [HttpGet]
+        public List<ExpertChoicesModels.Expert> CheckForAssignedExpertEstimations(int id)
+        {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedExpert(_currentUser))
             {
-                if (!problemsModel.Any(prob => prob.Id == est.IdProblem))
-                {
-                    var problemDB = DbHelper.GetProblem(est.IdProblem);
-                    problemsModel.Add(ModelMapper.ConvertToResponseProblem(problemDB));
-                    if (problemsModel.Last().AlternativesEstimations is null)
-                    {
-                        problemsModel.Last().AlternativesEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>>();
-                    }
-                    if (problemsModel.Last().ExpertsEstimations is null)
-                    {
-                        problemsModel.Last().ExpertsEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>>();
-                    }
-
-                }
-                var expEstimation = new Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>
-                {
-                    Estimator = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertByUserId(userDB.IdUser)),
-                    Estimated = new Dictionary<ExpertChoicesModels.Expert, int?>()
-                };
-                var Expert = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertById(est.IdExpert));
-                expEstimation.Estimated.Add(Expert, est.Value);
-                problemsModel.Last().ExpertsEstimations.Add(expEstimation);
+                return null;
             }
 
-            foreach (var est in assignedEstimationOnAlternative)
+            var assignedEstimationsOnExpert = new List<ExpertChoicesModels.Expert>();
+
+            var assignedEstimationsOnExpertDb = DbHelper.CheckForEstimationsOnExperts(_currentUser.IdUser, id);
+            foreach (var estimation in assignedEstimationsOnExpertDb)
             {
-                if (!problemsModel.Any(prob => prob.Id == est.IdProblem))
-                {
-                    var problemDB = DbHelper.GetProblem(est.IdProblem);
-                    problemsModel.Add(ModelMapper.ConvertToResponseProblem(problemDB));
-                    if (problemsModel.Last().AlternativesEstimations is null)
-                    {
-                        problemsModel.Last().AlternativesEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>>();
-                    }
-                    if (problemsModel.Last().ExpertsEstimations is null)
-                    {
-                        problemsModel.Last().ExpertsEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>>();
-                    }
-                }
-                var altEstimation = new Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>
-                {
-                    Estimator = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertByUserId(userDB.IdUser)),
-                    Estimated = new Dictionary<ExpertChoicesModels.Alternative, int?>()
-                };
-                var estimatedAlternative = ModelMapper.ConvertToResponseAlternative(DbHelper.GetAlternativeById(est.IdEstimatedAlternative));
-                altEstimation.Estimated.Add(estimatedAlternative, est.Value);
-                problemsModel.Last().AlternativesEstimations.Add(altEstimation);
+                var expert = DbHelper.GetExpertById(estimation.IdEstimatedExpert);
+                assignedEstimationsOnExpert.Add(ModelMapper.ConvertToResponseExpert(expert));
             }
-            var reponse = new ProblemListModel()
+            return assignedEstimationsOnExpert;
+        }
+
+        [Route("api/problems/{id}/Alternatives")]
+        [HttpGet]
+        public List<ExpertChoicesModels.Alternative> CheckForAssignedAlternativesEstimations(int id)
+        {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedExpert(_currentUser))
             {
-                Problems = problemsModel
-            };
-            return reponse;
+                return null;
+            }
+
+            var assignedEstimationsOnAlternatives = new List<ExpertChoicesModels.Alternative>();
+
+            var assignedEstimationsOnExpertDb = DbHelper.CheckForEstimationsOnAlternative(_currentUser.IdUser, id);
+            foreach (var estimation in assignedEstimationsOnExpertDb)
+            {
+                var alternative = DbHelper.GetAlternativeById(estimation.IdEstimatedAlternative);
+                assignedEstimationsOnAlternatives.Add(ModelMapper.ConvertToResponseAlternative(alternative));
+            }
+            return assignedEstimationsOnAlternatives;
         }
 
         // POST: api/Problems
@@ -94,59 +136,24 @@ namespace ExpertChoicesServer.Controllers
         [HttpPost]
         public int CreateNewProblem([FromBody]ExpertChoicesModels.Problem problemModel)
         {
-            return DbHelper.CreateProblem(ModelMapper.ConvertToDBProblem(problemModel));
-            //foreach (var altEstimationModel in problemModel.AlternativesEstimations)
-            //{
-            //    var idEstimator = altEstimationModel.Estimator.Id;
-            //    foreach (var valuePair in altEstimationModel.Estimated)
-            //    {
-            //        int altId;
-            //        var altDb = DbHelper.GetAlternativeByName(valuePair.Key.Name);
-            //        if (altDb is null)
-            //        {
-            //            altDb = ModelMapper.ConvertToDBAlternative(valuePair.Key);
-            //            //altDb.IdProblem = problemId;
-            //            altId = DbHelper.CreateAlternative(altDb);
-            //        }
-            //        else
-            //        {
-            //            altId = altDb.IdAlternative;
-            //        }
-
-            //        var estOnAlternativeDB = new EstimationOnAlternative()
-            //        {
-            //            IdEstimatedAlternative = altId,
-            //            IdEstimator = idEstimator,
-            //            IdProblem = problemId,
-            //            Value = valuePair.Value
-            //        };
-            //        DbHelper.CreateEtimationOnAlternative(estOnAlternativeDB);
-            //    }
-            //}
-
-            //foreach (var expEstimationModel in problemModel.ExpertsEstimations)
-            //{
-            //    var idEstimator = expEstimationModel.Estimator.Id;
-            //    foreach (var valuePair in expEstimationModel.Estimated)
-            //    {
-            //        int expId = valuePair.Key.Id;                    
-
-            //        var estOnExpertDB = new EstimationOnExpert()
-            //        {
-            //            IdExpert = expId,
-            //            IdEstimator = idEstimator,
-            //            IdProblem = problemId,
-            //            Value = valuePair.Value
-            //        };
-            //        DbHelper.CreateEtimationOnExpert(estOnExpertDB);
-            //    }
-            //}
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedExpert(_currentUser))
+            {
+                return -1;
+            }
+            return DbHelper.CreateProblem(ModelMapper.ConvertToDBProblem(problemModel));            
         }
 
         [Route("api/problems/{id}/Experts")]
         [HttpPost]
         public void AssignExpertsToProblem(int id, [FromBody]int[] expertIds)
         {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedAnalytic(_currentUser))
+            {
+                return;
+            }
+
             foreach (var expertIdEstimator in expertIds)
             {
                 foreach (var expertIdEstimated in expertIds)
@@ -157,7 +164,7 @@ namespace ExpertChoicesServer.Controllers
                     }
                     var estOnExpertDB = new EstimationOnExpert()
                     {
-                        IdExpert = expertIdEstimated,
+                        IdEstimatedExpert = expertIdEstimated,
                         IdEstimator = expertIdEstimator,
                         IdProblem = id,
                         Value = null
@@ -171,6 +178,12 @@ namespace ExpertChoicesServer.Controllers
         [HttpPost]
         public List<int> AssignAlternativesToProblem(int id, [FromBody]List<ExpertChoicesModels.Alternative> alternatives)
         {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedAnalytic(_currentUser))
+            {
+                return null;
+            }
+
             var altIds = new List<int>();
             var expertIds = DbHelper.GetEstimatorsOfProblem(id);
             foreach (var alt in alternatives)
@@ -198,6 +211,12 @@ namespace ExpertChoicesServer.Controllers
         [HttpGet]
         public ProblemSolution GetSolution(int id)
         {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedAnalytic(_currentUser))
+            {
+                return null;
+            }
+
             var problem = ModelMapper.ConvertToResponseProblem(DbHelper.GetProblem(id));
 
             var estimationsOnAlternativesDB = DbHelper.GetEstimationsOnAlternatives(id);
@@ -242,7 +261,7 @@ namespace ExpertChoicesServer.Controllers
                 };
                 foreach (var est in estOnExpDB)
                 {
-                    var expFromDB = DbHelper.GetExpertById(est.IdExpert);
+                    var expFromDB = DbHelper.GetExpertById(est.IdEstimatedExpert);
                     var estimatorFromDB = DbHelper.GetExpertById(estOnExpDB.Key);
 
                     problem.ExpertsEstimations
@@ -357,12 +376,18 @@ namespace ExpertChoicesServer.Controllers
         [Route("api/problems/{id}/{idEstimator}/Experts")]
         public void SubmitEstimationsOnExperts(int id, int idEstimator, [FromBody]List<EstimationModel> estimations)
         {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedExpert(_currentUser))
+            {
+                return;
+            }
+
             var estimationsDB = ModelMapper.ConvertToDBEstimationExpert(estimations);
             estimationsDB.ForEach(est => est.IdProblem = id);
             estimationsDB.ForEach(est => est.IdEstimator = idEstimator);
             foreach (var estimationDB in estimationsDB)
             {
-                DbHelper.CreateEtimationOnExpert(estimationDB);
+                DbHelper.UpdateEstimationOnExpert(estimationDB);
             }
         }
 
@@ -370,23 +395,19 @@ namespace ExpertChoicesServer.Controllers
         [Route("api/problems/{id}/{idEstimator}/Alternatives")]
         public void SubmitEstimationsOnAlternatives(int id, int idEstimator, [FromBody]List<EstimationModel> estimations)
         {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedExpert(_currentUser))
+            {
+                return;
+            }
+
             var estimationsDB = ModelMapper.ConvertToDBEstimationAlternative(estimations);
             estimationsDB.ForEach(est => est.IdProblem = id);
             estimationsDB.ForEach(est => est.IdEstimator = idEstimator);
             foreach (var estimationDB in estimationsDB)
             {
-                DbHelper.CreateEtimationOnAlternative(estimationDB);
+                DbHelper.UpdateEstimationOnAlternative(estimationDB);
             }            
-        }
-
-        private ExpertChoicesModels.User GetUserFromHeaders()
-        {
-            //var auth = Request.Headers.Authorization.Parameter;
-            return new ExpertChoicesModels.User
-            {
-                 Email = "asd@asd.asd",
-                 Password = "asd"
-            };
-        }
+        }        
     }
 }

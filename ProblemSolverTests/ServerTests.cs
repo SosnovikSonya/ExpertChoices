@@ -159,23 +159,7 @@ namespace ProblemSolverTests
                 };
             #endregion
 
-        }
-
-        [TestMethod]
-        public void CreateUser()
-        {
-            var user = new User
-            {
-                Email = "asd1@asd.asd",
-                FirstName = "asd1",
-                LastName = "asd1",
-                Password = "asd1",
-                IsApproved = false,
-                Role = 4,
-
-            };
-            DbHelper.RegisterUser(user);
-        }
+        }                
 
         [TestMethod]
         public void CreateProblem()
@@ -198,6 +182,13 @@ namespace ProblemSolverTests
         [TestMethod]
         public void CheckForAssignedProblems()
         {
+            var asdasd = Convert.ToBase64String(
+                Encoding.ASCII.GetBytes(
+                    $"asd1@asd.asd:asd123"));
+
+            byte[] data = System.Convert.FromBase64String(asdasd);
+            var asda = System.Text.ASCIIEncoding.ASCII.GetString(data);
+
             var contr = new ProblemsController();
             contr.CheckForAssignedProblems();
         }
@@ -208,7 +199,7 @@ namespace ProblemSolverTests
         {
             var est = new EstimationOnExpert
             {
-                IdExpert = 1,
+                IdEstimatedExpert = 1,
                 IdEstimator = 2,
                 IdProblem = 1,
                 Value = 5
@@ -263,7 +254,7 @@ namespace ProblemSolverTests
         {
             var est = new EstimationOnExpert
             {
-                IdExpert = 1,
+                IdEstimatedExpert = 1,
                 IdEstimator = 3,
                 IdProblem = 11,
                 Value = 5

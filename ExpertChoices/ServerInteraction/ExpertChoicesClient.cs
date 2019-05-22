@@ -70,11 +70,11 @@ namespace ExpertChoices.ServerInteraction
         #region Expert
 
         //Get
-        public ProblemListModel CheckForProblems()
+        public List<Problem> CheckForProblems()
         {
             var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}"), null);
             var result = _httpClient.SendAsync(message).Result;
-            return JsonHelper.DeserializeFromJson<ProblemListModel>(result.Content.ReadAsStringAsync().Result);
+            return JsonHelper.DeserializeFromJson<List<Problem>>(result.Content.ReadAsStringAsync().Result);
         }
 
         //Post
