@@ -1,0 +1,502 @@
+{
+	"info": {
+		"_postman_id": "cc4bf8bd-651a-45f4-bc5f-c37e8b456a15",
+		"name": "ExpertChoices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic asd1@asd.asd:asd123",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Name\": \"Сидор Сидоров\",\r\n\t\"Role\": 12,\r\n\t\"AuthToken\": \"YXNkM0Bhc2QuYXNkOmFzZDEyMw==\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:53146/api/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "53146",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Basic YXNkQGFzZC5hc2Q6YXNkMTIz"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:53146/api/users/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "53146",
+							"path": [
+								"api",
+								"users",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Basic YXNkQGFzZC5hc2Q6YXNkMTIz"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\": \"Sonya Sosnovik\",\n\t\"Role\": 6,\n\t\"AuthToken\": \"YXNkMUBhc2QuYXNkOmFzZDEyMw==\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:53146/api/users/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "53146",
+							"path": [
+								"api",
+								"users",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetPendingUsers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YXNkQGFzZC5hc2Q6YXNkMTIz",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:53146/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "53146",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "Basic YXNkMUBhc2QuYXNkOmFzZDEyMw==",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Create Problem",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YXNkM0Bhc2QuYXNkOmFzZDEyMw==",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Name\": \"When to go to cinema\",\n  \"Description\": \"When to go to cinema -- need to to decide\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:53146/api/problems/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Solution",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:53146/api/problems/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all experts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:53146/api/experts/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"experts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign Experts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic YXNkM0Bhc2QuYXNkOmFzZDEyMw=="
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[1, 2, 3]"
+				},
+				"url": {
+					"raw": "http://localhost:53146/api/problems/1/experts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems",
+						"1",
+						"experts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send estimations on Experts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic YXNkQGFzZC5hc2Q6YXNkMTIz"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"Id\": 1,\n\t\t\"Value\": 4\n\t},\n\t{\n\t\t\"Id\": 2,\n\t\t\"Value\": 6\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:53146/api/problems/1002/3/experts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems",
+						"1002",
+						"3",
+						"experts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send estimations on Alternatives",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic YXNkQGFzZC5hc2Q6YXNkMTIz"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"Id\": 1,\n\t\t\"Value\": 5\n\t},\n\t{\n\t\t\"Id\": 2,\n\t\t\"Value\": 6\n\t},\n\t{\n\t\t\"Id\": 3,\n\t\t\"Value\": 7\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:53146/api/problems/1/3/alternatives",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems",
+						"1",
+						"3",
+						"alternatives"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign alternatives",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic YXNkM0Bhc2QuYXNkOmFzZDEyMw=="
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  \t{\n  \t\t\"Name\": \"Sunday\",\n  \t\t\"Description\" : \"asdad\"\n  \t},\n  \t{\n  \t\t\"Name\": \"Friday\",\n  \t\t\"Description\" : \"asdad\"\n  \t},\n  \t\t{\n  \t\t\"Name\": \"Saturday\",\n  \t\t\"Description\" : \"asdad\"\n  \t}\n  ]"
+				},
+				"url": {
+					"raw": "http://localhost:53146/api/problems/1/alternatives",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems",
+						"1",
+						"alternatives"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check for assigned problems",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YXNkMUBhc2QuYXNkOmFzZDEyMw==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:53146/api/problems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check for assigned estimations on experts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YXNkM0Bhc2QuYXNkOmFzZDEyMw==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:53146/api/problems/1/experts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems",
+						"1",
+						"experts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check for assigned estimations on alternatives",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Basic YXNkM0Bhc2QuYXNkOmFzZDEyMw=="
+					}
+				],
+				"url": {
+					"raw": "http://localhost:53146/api/problems/1/alternatives",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "53146",
+					"path": [
+						"api",
+						"problems",
+						"1",
+						"alternatives"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

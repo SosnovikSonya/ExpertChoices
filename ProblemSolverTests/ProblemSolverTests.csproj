@@ -50,6 +50,7 @@
     <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientTests.cs" />
     <Compile Include="ServerTests.cs" />
     <Compile Include="SolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

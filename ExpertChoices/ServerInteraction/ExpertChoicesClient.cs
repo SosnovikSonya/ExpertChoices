@@ -11,23 +11,24 @@ using System.Threading.Tasks;
 
 namespace ExpertChoices.ServerInteraction
 {
-    class ExpertChoicesClient
+    public class ExpertChoicesClient
     {
         private HttpClient _httpClient;
         private string _authToken;
-        private const string _domain = "http://ExpertChoices.com";
+        private const string _domain = "http://localhost:53146/api";
         private const string _userApi = "/users";
         private const string _problemApi = "/problems";
-        private const string _createUserMethod = "/create";
+        private const string _expertApi = "/experts";
+        private const string _registerUserMethod = "/register";
         private const string _authorizeMethod = "/authorize";
-        private const string _alternativesMethod = "/authorize";
-        private const string _expertsMethod = "/authorize";
+        private const string _alternativesMethod = "/alternatives";
+        private const string _expertsMethod = "/experts";
 
         public ExpertChoicesClient()
         {
             _httpClient = new HttpClient();
         }
-        
+        #region Common
         //Post
         public void Register(User user)
         {
@@ -36,60 +37,74 @@ namespace ExpertChoices.ServerInteraction
                 new RegisterUserPostRequestModel
                 {
                     AuthToken = GetAuthToken(user.Email, user.Password),
-                    Name = user.FirstName,
+                    Name = $"{user.FirstName} {user.LastName}",
                     Role = user.Role
                 });
-            var message = GetRequestMessagePost(new Uri($"{_domain}{_userApi}{_createUserMethod}"), null, content);
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_userApi}{_registerUserMethod}"), null, content);
             var result = _httpClient.SendAsync(message).Result;
         }
 
         //Post -- verify user permissions
-        public bool Authorize(string email, string password, out UserRole role)
+        public AuthorizationResultModel Authorize(string email, string password)
         {
             //encode password and email
-            _authToken = GetAuthToken(email, password);
+            _authToken = GetAuthToken(email, password);           
 
-            var content = JsonHelper.SerializeToJson(new AuthorizeUserPostRequestModel
-            {
-                AuthToken = _authToken
-            });
-
-            var message = GetRequestMessagePost(new Uri($"{_domain}{_userApi}{_authorizeMethod}"), null, content);
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_userApi}{_authorizeMethod}"), null);
             var result = _httpClient.SendAsync(message).Result;
-            var resultContent = JsonHelper.DeserializeFromJson<AuthorizeUserPostResponseModel>(result.Content.ReadAsStringAsync().Result);
-
-            //var resultContent = new AuthorizeUserPostResponseModel
-            //{
-            //    Authorized = true,
-            //    Role = UserRole.Admin | UserRole.Analytic
-            //};
-            role = resultContent.Role;
-            return resultContent.Authorized;
+            return JsonHelper.DeserializeFromJson<AuthorizationResultModel>(result.Content.ReadAsStringAsync().Result);
         }
+        #endregion
 
         #region Expert
 
         //Get
-        public List<Problem> CheckForProblems()
+        public List<Problem> CheckForAssignedProblems()
         {
             var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}"), null);
             var result = _httpClient.SendAsync(message).Result;
             return JsonHelper.DeserializeFromJson<List<Problem>>(result.Content.ReadAsStringAsync().Result);
         }
 
-        //Post
-        public void SendEstimationsOnExperts(Estimation<Expert, Expert> estimations, int problemId)
+        //Get
+        public List<Expert> CheckForAssignedEstimationsOnExperts(int problemId)
         {
-            var content = JsonHelper.SerializeToJson(estimations);
-            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}/{problemId}{_expertsMethod}"), null, content);
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}/{problemId}{_expertsMethod}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<List<Expert>>(result.Content.ReadAsStringAsync().Result);
+        }
+
+        //Get
+        public List<Alternative> CheckForAssignedEstimationsOnAlternatives(int problemId)
+        {
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}/{problemId}{_alternativesMethod}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<List<Alternative>>(result.Content.ReadAsStringAsync().Result);
+        }
+
+        //Post
+        public void SendEstimationsOnExperts(int problemId, Estimation<Expert, Expert> estimations)
+        {
+            var content = JsonHelper.SerializeToJson(
+                estimations.Estimated.Select(pair => new EstimationModel
+                {
+                    Id = pair.Key.Id,
+                    Value = pair.Value.Value
+                }));
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}/{problemId}/{estimations.Estimator.Id}{_expertsMethod}"), null, content);
             var result = _httpClient.SendAsync(message).Result;
         }
 
         //Post
-        public void SendEstimationsOnAlternatives(Estimation<Expert, Alternative> estimations, int problemId)
+        public void SendEstimationsOnAlternatives(int problemId, Estimation<Expert, Alternative> estimations)
         {
-            var content = JsonHelper.SerializeToJson(estimations);
-            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}/{problemId}{_alternativesMethod}"), null, content);
+            var content = JsonHelper.SerializeToJson(
+                estimations.Estimated.Select(pair => new EstimationModel
+                {
+                    Id = pair.Key.Id,
+                    Value = pair.Value.Value
+                }));
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}/{problemId}/{estimations.Estimator.Id}{_alternativesMethod}"), null, content);
             var result = _httpClient.SendAsync(message).Result;
         }
 
@@ -103,16 +118,53 @@ namespace ExpertChoices.ServerInteraction
             var content = JsonHelper.SerializeToJson(problem);
             var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}"), null, content);
             var result = _httpClient.SendAsync(message).Result;
-            return JsonHelper.DeserializeFromJson<CreateProblemPostResponseModel>(result.Content.ReadAsStringAsync().Result).Id;
+            return JsonHelper.DeserializeFromJson<int>(result.Content.ReadAsStringAsync().Result);
         }
 
-        //Get returns problem solution (complited or not)
-        public ProblemSolution GetProblemSolution(int id)
+        public List<int> AssignAlternative(int idProblem, List<Alternative> alternatives)
         {
-            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}/{id}"), null);
+            var content = JsonHelper.SerializeToJson(alternatives);
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}/{idProblem}{_alternativesMethod}"), null, content);
             var result = _httpClient.SendAsync(message).Result;
-            return JsonConvert.DeserializeObject<ProblemSolution>(result.Content.ReadAsStringAsync().Result);
+            return JsonHelper.DeserializeFromJson<List<int>>(result.Content.ReadAsStringAsync().Result);
         }
+
+        public void AssignExperts(int idProblem, List<int> expertIds)
+        {
+            var content = JsonHelper.SerializeToJson(expertIds);
+            var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}/{idProblem}{_expertsMethod}"), null, content);
+            var result = _httpClient.SendAsync(message).Result;
+        }
+
+        
+        public void SolveTheProblem(int id)
+        {
+            var message = GetRequestMessagePut(new Uri($"{_domain}{_problemApi}/{id}"), null, "");
+            var result = _httpClient.SendAsync(message).Result;
+        }
+
+        public List<Expert> GetAllExperts()
+        {
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_expertsMethod}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<List<Expert>>(result.Content.ReadAsStringAsync().Result);
+        }
+
+        public ExpertMetricsModel GetExpertMetrics(int problemId, int expertId)
+        {
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}/{problemId}{_expertsMethod}/{expertId}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<ExpertMetricsModel>(result.Content.ReadAsStringAsync().Result);
+        }
+
+        public AlternativeMetricsModel GetAlternativeMetrics(int problemId, int altId)
+        {
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}/{problemId}{_alternativesMethod}/{altId}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<AlternativeMetricsModel>(result.Content.ReadAsStringAsync().Result);
+        }
+        //3 methods remain
+
 
         #endregion
 
@@ -123,51 +175,59 @@ namespace ExpertChoices.ServerInteraction
         {
             var message = GetRequestMessageGet(new Uri($"{_domain}{_userApi}"),  null);
             var result = _httpClient.SendAsync(message).Result;
-            var response = JsonConvert.DeserializeObject<GetPendingUsersModel>(result.Content.ReadAsStringAsync().Result);
-            return response.Users;
+            return JsonConvert.DeserializeObject<List<User>>(result.Content.ReadAsStringAsync().Result);
         }
 
         //Put
         public void ApproveUsers(int id)
         {           
-            var message = GetRequestMessagePut(new Uri($"{_domain}{_userApi}/id"), null, "");
+            var message = GetRequestMessagePut(new Uri($"{_domain}{_userApi}/{id}"), null, "");
             var result = _httpClient.SendAsync(message).Result;
         }
 
         //Delete
         public void DeleteUsers(int id)
         {
-            var message = GetRequestMessageDelete(new Uri($"{_domain}{_userApi}/id"), null, "");
+            var message = GetRequestMessageDelete(new Uri($"{_domain}{_userApi}/{id}"), null, "");
             var result = _httpClient.SendAsync(message).Result;
         }
 
         #endregion
 
+        #region http helper
         private HttpRequestMessage GetRequestMessageGet(Uri uri, Dictionary<string, string> headers)
         {
-            return GetRequestMessage(headers);            
+            var message = GetRequestMessage(headers);
+            message.RequestUri = uri;
+            return message;            
         }
 
-        private HttpRequestMessage GetRequestMessagePost(Uri uri, Dictionary<string, string> headers, string content)
+        private HttpRequestMessage GetRequestMessagePost(Uri uri, Dictionary<string, string> headers, string content, string contentType = "application/json")
         {
             var message = GetRequestMessage(headers);
+            message.RequestUri = uri;
             message.Content = new StringContent(content);
             message.Method = HttpMethod.Post;
+            message.Content.Headers.ContentType.MediaType = contentType;
             return message;
         }
 
-        private HttpRequestMessage GetRequestMessagePut(Uri uri, Dictionary<string, string> headers, string content)
+        private HttpRequestMessage GetRequestMessagePut(Uri uri, Dictionary<string, string> headers, string content, string contentType = "application/json")
         {
             var message = GetRequestMessage(headers);
+            message.RequestUri = uri;
             message.Content = new StringContent(content);
+            message.Content.Headers.ContentType.MediaType = contentType;
             message.Method = HttpMethod.Put;
             return message;
         }
 
-        private HttpRequestMessage GetRequestMessageDelete(Uri uri, Dictionary<string, string> headers, string content)
+        private HttpRequestMessage GetRequestMessageDelete(Uri uri, Dictionary<string, string> headers, string content, string contentType = "application/json")
         {
             var message = GetRequestMessage(headers);
+            message.RequestUri = uri;
             message.Content = new StringContent(content);
+            message.Content.Headers.ContentType.MediaType = contentType;
             message.Method = HttpMethod.Delete;
             return message;
         }
@@ -192,5 +252,6 @@ namespace ExpertChoices.ServerInteraction
                 Encoding.ASCII.GetBytes(
                     $"{email}:{password}"));
         }
+        #endregion
     }
 }

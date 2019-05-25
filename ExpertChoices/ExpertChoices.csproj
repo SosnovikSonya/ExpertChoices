@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApproveUsersPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApproveUsersPage.Designer.cs">
+      <DependentUpon>ApproveUsersPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdminPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +73,7 @@
     <Compile Include="AnalyticPage.Designer.cs">
       <DependentUpon>AnalyticPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppContext.cs" />
     <Compile Include="AuthorizePage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +107,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ApproveUsersPage.resx">
+      <DependentUpon>ApproveUsersPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AdminPage.resx">
       <DependentUpon>AdminPage.cs</DependentUpon>
     </EmbeddedResource>

@@ -159,7 +159,7 @@ namespace ProblemSolverTests
                 };
             #endregion
 
-        }                
+        }
 
         [TestMethod]
         public void CreateProblem()
@@ -269,7 +269,6 @@ namespace ProblemSolverTests
         {
             var asd = problem.ToString();
             var contr = new ProblemsController();
-            var solution1 = contr.GetSolution(18);
 
 
             var solver = new ProblemSolver<ExpertChoicesModels.Problem, ExpertChoicesModels.Expert, ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>(problem);

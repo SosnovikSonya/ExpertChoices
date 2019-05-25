@@ -27,66 +27,7 @@ namespace ExpertChoicesServer.Controllers
                 return null;
             }
 
-            return DbHelper.CheckForAssignedProblems(_currentUser.IdUser).Select(dbent =>ModelMapper.ConvertToResponseProblem(dbent)).ToList();
-
-            //var assignedEstimationOnExpert = DbHelper.CheckForEstimationsOnExperts(_currentUser.IdUser, );
-            //var assignedEstimationOnAlternative = DbHelper.CheckForEstimationsOnAlternative(_currentUser.IdUser);
-
-            //var problemsModel = new List<ExpertChoicesModels.Problem>();
-
-
-            //foreach (var est in assignedEstimationOnExpert)
-            //{
-            //    if (!problemsModel.Any(prob => prob.Id == est.IdProblem))
-            //    {
-            //        var problemDB = DbHelper.GetProblem(est.IdProblem);
-            //        //problemsModel.Add(ModelMapper.ConvertToResponseProblem(problemDB));
-            //        //if (problemsModel.Last().AlternativesEstimations is null)
-            //        //{
-            //        //    problemsModel.Last().AlternativesEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>>();
-            //        //}
-            //        //if (problemsModel.Last().ExpertsEstimations is null)
-            //        //{
-            //        //    problemsModel.Last().ExpertsEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>>();
-            //        //}
-
-            //    }
-            //    //var expEstimation = new Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>
-            //    //{
-            //    //    Estimator = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertByUserId(_currentUser.IdUser)),
-            //    //    Estimated = new Dictionary<ExpertChoicesModels.Expert, int?>()
-            //    //};
-            //    //var Expert = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertById(est.IdExpert));
-            //    //expEstimation.Estimated.Add(Expert, est.Value);
-            //    //problemsModel.Last().ExpertsEstimations.Add(expEstimation);
-            //}
-
-            //foreach (var est in assignedEstimationOnAlternative)
-            //{
-            //    if (!problemsModel.Any(prob => prob.Id == est.IdProblem))
-            //    {
-            //        var problemDB = DbHelper.GetProblem(est.IdProblem);
-            //        problemsModel.Add(ModelMapper.ConvertToResponseProblem(problemDB));
-            //        //if (problemsModel.Last().AlternativesEstimations is null)
-            //        //{
-            //        //    problemsModel.Last().AlternativesEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>>();
-            //        //}
-            //        //if (problemsModel.Last().ExpertsEstimations is null)
-            //        //{
-            //        //    problemsModel.Last().ExpertsEstimations = new List<Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Expert>>();
-            //        //}
-            //    }
-            //    //var altEstimation = new Estimation<ExpertChoicesModels.Expert, ExpertChoicesModels.Alternative>
-            //    //{
-            //    //    Estimator = ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertByUserId(_currentUser.IdUser)),
-            //    //    Estimated = new Dictionary<ExpertChoicesModels.Alternative, int?>()
-            //    //};
-            //    //var estimatedAlternative = ModelMapper.ConvertToResponseAlternative(DbHelper.GetAlternativeById(est.IdEstimatedAlternative));
-            //    //altEstimation.Estimated.Add(estimatedAlternative, est.Value);
-            //    //problemsModel.Last().AlternativesEstimations.Add(altEstimation);
-            //}
-           
-            //return problemsModel;
+            return DbHelper.CheckForAssignedProblems(_currentUser.IdUser).Select(dbent =>ModelMapper.ConvertToResponseProblem(dbent)).ToList();            
         }
 
         [Route("api/problems/{id}/Experts")]
@@ -131,7 +72,6 @@ namespace ExpertChoicesServer.Controllers
             return assignedEstimationsOnAlternatives;
         }
 
-        // POST: api/Problems
         [Route("api/problems")]
         [HttpPost]
         public int CreateNewProblem([FromBody]ExpertChoicesModels.Problem problemModel)
@@ -206,15 +146,14 @@ namespace ExpertChoicesServer.Controllers
             return altIds;
         }
 
-        // GET: api/Problems/5
         [Route("api/problems/{id}")]
-        [HttpGet]
-        public ProblemSolution GetSolution(int id)
+        [HttpPut]
+        public void SolveTheProblem(int id)
         {
             _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
             if (!AuthHelper.VerifyUserAuthorizedAnalytic(_currentUser))
             {
-                return null;
+                return;
             }
 
             var problem = ModelMapper.ConvertToResponseProblem(DbHelper.GetProblem(id));
@@ -222,6 +161,7 @@ namespace ExpertChoicesServer.Controllers
             var estimationsOnAlternativesDB = DbHelper.GetEstimationsOnAlternatives(id);
             var estimationsOnExpertsDB = DbHelper.GetEstimationsOnExpert(id);
 
+            //Gather estimation on alternatives data into problem object
             foreach (var estOnAltDB in estimationsOnAlternativesDB.GroupBy(est => est.IdEstimator))
             {
                 problem.AlternativesEstimations.Add(ModelMapper.ConvertToEstimationModel(estOnAltDB.ToList()));
@@ -252,6 +192,7 @@ namespace ExpertChoicesServer.Controllers
                 }
             }
 
+            //Gather estimation on experts data into problem object
             foreach (var estOnExpDB in estimationsOnExpertsDB.GroupBy(est => est.IdEstimator))
             {
                 problem.ExpertsEstimations.Add(ModelMapper.ConvertToEstimationModel(estOnExpDB.ToList()));
@@ -331,45 +272,28 @@ namespace ExpertChoicesServer.Controllers
                     Value = (float)item.Value
                 });
             }
+        }
 
-
-            //return solution
-            var solution = new ProblemSolution();
-            var expertsCompetencyList = DbHelper.GetExpertCompetencies(id);
-            var expertsDispersionList = DbHelper.GetExpertDispersions(id);
-            var alternativesDispersionList = DbHelper.GetAlternativeDispersions(id);
-            var alternativesPreferencyList = DbHelper.GetAlternativesPreferencies(id);
-
-            foreach (var item in expertsCompetencyList)
+        [Route("api/problems/{id}/experts/{idExpert}")]
+        [HttpGet]
+        public ExpertMetricsModel GetExpertMetrics(int id, int idExpert)
+        {
+            return new ExpertMetricsModel
             {
-                solution.ExpertsCompetency.Add(
-                    new ExpertChoicesModels.Expert { Name = item.Name },
-                    (double)item.Value);
-            }
+                Competency = DbHelper.GetExpertCompetency(id, idExpert),
+                Dispersion = DbHelper.GetExpertDispersion(id, idExpert)
+            };
+        }
 
-            foreach (var item in expertsDispersionList)
+        [Route("api/problems/{id}/Alternatives/{idAlternative}")]
+        [HttpGet]
+        public AlternativeMetricsModel GetAlternativeMetrics(int id, int idAlternative)
+        {
+            return new AlternativeMetricsModel
             {
-                solution.ExpertsDispersion.Add(
-                    new ExpertChoicesModels.Expert { Name = item.Name },
-                    (double)item.Value);
-            }
-
-            foreach (var item in alternativesDispersionList)
-            {
-                solution.AlternativesDispersion.Add(
-                    new ExpertChoicesModels.Alternative { Name = item.Name },
-                    (double)item.Value);
-            }
-
-            foreach (var item in alternativesPreferencyList)
-            {
-                solution.AlternativesPreferency.Add(
-                    new ExpertChoicesModels.Alternative { Name = item.Name },
-                    (double)item.Value);
-            }
-
-            return solution;
-
+                Preferency = DbHelper.GetAlternativesPreferency(id, idAlternative),
+                Dispersion = DbHelper.GetAlternativeDispersion(id, idAlternative)
+            };
         }
 
         [HttpPost]

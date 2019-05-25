@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace ExpertChoicesModels
 {
-    public class User : BodyModel
+    public class AuthorizationResultModel
     {
-        public int? Id { get; set; }
-        public UserRole Role { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public bool IsAuthorized { get; set; }
+        public UserRole Role { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

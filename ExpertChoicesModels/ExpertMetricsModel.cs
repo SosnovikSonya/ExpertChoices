@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ExpertChoicesModels
 {
-    public class GetPendingUsersModel : BodyModel
+    public class ExpertMetricsModel
     {
-        public List<User> Users { get; set; }
+        public double? Dispersion { get; set; }
+        public double? Competency { get; set; }
     }
 }

@@ -16,5 +16,19 @@ namespace ExpertChoices
         {
             InitializeComponent();
         }
+
+        private void goBack_Click(object sender, EventArgs e)
+        {
+            var logAsPage = new LogAsPage();
+            logAsPage.Show();
+            this.Close();
+        }
+
+        private void buttonListUnapprovedUsers_Click(object sender, EventArgs e)
+        {
+            var approveUsersPage = new ApproveUsersPage();
+            approveUsersPage.Show();
+            this.Close();
+        }
     }
 }

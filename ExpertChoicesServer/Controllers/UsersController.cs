@@ -18,7 +18,7 @@ namespace ExpertChoicesServer.Controllers
         // GET: api/Users
         [Route("api/users")]
         [HttpGet]
-        public GetPendingUsersModel GetPendingUsers()
+        public List<ExpertChoicesModels.User> GetPendingUsers()
         {
             _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
             if (!AuthHelper.VerifyUserAuthorizedAdmin(_currentUser))
@@ -27,11 +27,7 @@ namespace ExpertChoicesServer.Controllers
             }
 
             var list = DbHelper.GetPendingUsers();
-            var response = new GetPendingUsersModel()
-            {
-                Users = list.Select(userDB => ModelMapper.ConvertToResponseUser(userDB)).ToList()
-            };
-            return response;
+            return list.Select(userDB => ModelMapper.ConvertToResponseUser(userDB)).ToList();
         }
 
         // PUT: api/Users/5
@@ -59,10 +55,9 @@ namespace ExpertChoicesServer.Controllers
                 return ;
             }
 
-            DbHelper.DeleteUser(_currentUser.Email, _currentUser.Password);
+            DbHelper.DeleteUser(id);
         }
 
-        // POST: api/users/Register
         [Route("api/users/Register")]
         [HttpPost]
         public void Register([FromBody]ExpertChoicesModels.RegisterUserPostRequestModel user)
@@ -71,11 +66,33 @@ namespace ExpertChoicesServer.Controllers
             return;
         }
 
-        // POST: api/users/Authorize
         [Route("api/users/Authorize")]
-        [HttpPost]
-        public void Authorize( [FromBody]string value)
+        [HttpGet]
+        public AuthorizationResultModel Authorize()
         {
+            _currentUser = AuthHelper.GetUserFromAuthToken(Request.Headers?.Authorization?.Parameter);
+            if (_currentUser is null)
+            {
+                return null;
+            }
+
+            var model = new AuthorizationResultModel
+            {
+                Email = _currentUser.Email,
+                IsAuthorized = false,
+                Role = UserRole.Null
+            };
+
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (_currentUser is null)
+            {
+                return model;
+            }
+            model.IsAuthorized = _currentUser.IsApproved;
+            model.Role = (UserRole)_currentUser.Role;
+            model.FirstName = _currentUser.FirstName;
+            model.LastName = _currentUser.LastName;
+            return model;
         }
     }
 }

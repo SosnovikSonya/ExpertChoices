@@ -19,15 +19,15 @@ namespace ExpertChoices
 
         private void RegistrButton_Click(object sender, EventArgs e)
         {
-            RegistrationPage reg = new RegistrationPage();
-            reg.Show();
+            var regPage = new RegistrationPage();
+            regPage.Show();
             this.Hide();
         }
 
         private void AuthButton_Click(object sender, EventArgs e)
         {
-            AuthorizePage auth = new AuthorizePage();
-            auth.Show();
+            var authPage = new AuthorizePage();
+            authPage.Show();
             this.Hide();
         }
 

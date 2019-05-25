@@ -1,49 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="ProblemSolver.Matrix&lt;TRaw, TCol&gt;">
-    <Position X="44.5" Y="11.5" Width="1.75" />
+    <Position X="42" Y="15.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAgAAAE=</HashCode>
       <FileName>Matrix.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ProblemSolver.ProblemSolution&lt;T&gt;">
-    <Position X="42" Y="13.5" Width="2" />
+  <Class Name="ProblemSolver.ProblemSolution">
+    <Position X="41.75" Y="13.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAQACAAAAAAABAAAAAAAAAAAEAE=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAQACAAAAAAABAAAAAAAAAAAEAA=</HashCode>
       <FileName>ProblemSolution.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ProblemSolver.ProblemSolver&lt;T&gt;">
-    <Position X="38.5" Y="13.25" Width="3" />
-    <TypeIdentifier>
-      <HashCode>ABEgAAAIAAAgAAAAAAAAAAAgAEAAAAAAAAQAgoAAAAE=</HashCode>
-      <FileName>ProblemSolver.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ProblemSolver.ExpertEstimation&lt;T&gt;">
+  <Class Name="ProblemSolver.Estimation&lt;TExpert, TEstimated&gt;">
     <Position X="44.25" Y="13.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ExpertEstimation.cs</FileName>
+      <FileName>Estimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProblemSolver.ProblemSolver&lt;TProblem, TEstimator, TExpert, TEstimatedAlternative&gt;">
+    <Position X="38.75" Y="13" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>IAQgAAAAEAAgAAAAAAAAAAAgAEAAAAAAABQAgoAgAAE=</HashCode>
+      <FileName>ProblemSolver.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="ProblemSolver.IAlternative">
-    <Position X="38.5" Y="11.5" Width="1.5" />
+    <Position X="38.75" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IAlternative.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="ProblemSolver.IExpert">
-    <Position X="40.5" Y="11.5" Width="1.5" />
+    <Position X="40.5" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IExpert.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="ProblemSolver.IProblem">
-    <Position X="42.5" Y="11.5" Width="1.5" />
+  <Interface Name="ProblemSolver.IProblem&lt;TEstimator, TExpert, TEstimatedAlternative&gt;">
+    <Position X="42.5" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAQAAAAAQAAAAAAAAAAACAAAAAAAA=</HashCode>
       <FileName>IProblem.cs</FileName>

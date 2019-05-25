@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ExpertChoicesModels
 {
-    public class CreateProblemPostResponseModel : BodyModel
+    public class AlternativeMetricsModel
     {
-        public int Id { set; get; }
+        public double? Dispersion { get; set; }
+        public double? Preferency { get; set; }
     }
 }

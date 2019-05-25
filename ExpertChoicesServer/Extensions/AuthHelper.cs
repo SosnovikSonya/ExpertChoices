@@ -11,26 +11,37 @@ namespace ExpertChoicesServer.Extensions
     {
         public static DataBase.User GetUserFromAuthHeader(HttpRequestMessage request)
         {
-            var token = request.Headers.Authorization.Parameter;
-
-            byte[] data = System.Convert.FromBase64String(token);
-            var credentials = System.Text.ASCIIEncoding.ASCII.GetString(data).Split(':');
-
-            return DbHelper.GetUser(credentials[0], credentials[1]);
+            try
+            {
+                var token = request.Headers.Authorization.Parameter;
+                byte[] data = System.Convert.FromBase64String(token);
+                var credentials = System.Text.ASCIIEncoding.ASCII.GetString(data).Split(':');
+                return DbHelper.GetUser(credentials[0], credentials[1]);
+            }
+            catch (Exception)
+            {
+                return null; 
+            }
         }
 
         public static DataBase.User GetUserFromAuthToken(string token)
         {
-            byte[] data = System.Convert.FromBase64String(token);
-            var credentials = System.Text.ASCIIEncoding.ASCII.GetString(data).Split(':');
-
-            return new DataBase.User
+            try
             {
-                Email = credentials[0],
-                Password = credentials[1]
-            };
-        }
+                byte[] data = System.Convert.FromBase64String(token);
+                var credentials = System.Text.ASCIIEncoding.ASCII.GetString(data).Split(':');
 
+                return new DataBase.User
+                {
+                    Email = credentials[0],
+                    Password = credentials[1]
+                };
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         public static bool VerifyUserAuthorizedAdmin(DataBase.User user)
         {

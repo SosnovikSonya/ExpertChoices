@@ -21,37 +21,33 @@ namespace ExpertChoices
 
         private void goBack_Click(object sender, EventArgs e)
         {
-            HomePage frm1 = new HomePage();
-            frm1.Show();
-            this.Hide();
+            var homePage = new HomePage();
+            homePage.Show();
+            this.Close();
         }
 
-        public void NextButtonClick()
+        public void next_Click(object sender, EventArgs e)
         {
-            var expertchoicesclient = new ExpertChoicesClient();
-
-            var email = "";
-            var password = "";
-            var authorized = expertchoicesclient.Authorize(email, password, out UserRole role);
-            if (!authorized)
+            AppContext.CurrentUser = new User()
             {
-                MessageBox.Show("Ошибка", "Не удалось авторизировать", MessageBoxButtons.OK);
+                Email = textBoxEmail.Text,
+                Password = textBoxPassword.Text
+            };
+            var authResult = AppContext.Client.Authorize(AppContext.CurrentUser.Email, AppContext.CurrentUser.Password);
+
+            if (!authResult.IsAuthorized)
+            {
+                MessageBox.Show("Пользователь с таким email и паролем не существует или не одобрен администратором", "Ошибка Авторизации", MessageBoxButtons.OK);
                 return;
             }
 
+            AppContext.CurrentUser.Role = authResult.Role;
+            AppContext.CurrentUser.FirstName = authResult.FirstName;
+            AppContext.CurrentUser.LastName = authResult.LastName;
 
-            //switch (role)
-            //{
-            //    case UserRole.Admin:
-            //        //show button work as admin
-            //        break;
-            //    case UserRole.Expert:
-            //        //show button work as expert
-            //        break;
-            //    case UserRole.Analytic:
-            //        //show button work as analytic
-            //        break;               
-            //}
-        }
+            var logAsPage = new LogAsPage();
+            logAsPage.Show();
+            this.Close();
+        }       
     }
 }

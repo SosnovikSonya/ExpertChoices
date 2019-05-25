@@ -65,9 +65,9 @@ namespace ExpertChoicesServer.DataBase
             return ExecuteQueryWithResult<User>(query).SingleOrDefault();
         }
 
-        public static User DeleteUser(string email, string password)
+        public static User DeleteUser(int id)
         {
-            var query = $"delete from [user] where email = '{email}' and password = '{password}'";
+            var query = $"delete from [user] where iduser = {id}";
             return ExecuteQueryWithResult<User>(query).SingleOrDefault();
         }
 
@@ -220,36 +220,40 @@ namespace ExpertChoicesServer.DataBase
             ExecuteQueryWithResult<object>(query);
         }
 
-        public static List<dynamic> GetAlternativeDispersions(int problemId)
+        public static float? GetAlternativeDispersion(int problemId, int altId)
         {
-            var query = $@"select a.Name, ad.Value from AlternativeDispersion ad 
-                join Alternative a on a.IdAlternative = ad.IdAlternative
-                where IdProblem = {problemId}";
-            return ExecuteQueryWithResult<dynamic>(query);
+            var query = $@"select top 1 Value from AlternativeDispersion
+                where IdProblem = {problemId}
+                and IdAlternative = {altId}
+                order by idAlternativeDispersion desc";
+            return ExecuteQueryWithResult<float?>(query).SingleOrDefault();
         }
 
-        public static List<dynamic> GetAlternativesPreferencies(int problemId)
+        public static float? GetAlternativesPreferency(int problemId, int altId)
         {
-            var query = $@"select a.Name, ap.Value from AlternativePreferency ap 
-                join Alternative a on a.IdAlternative = ap.IdAlternative
-                where IdProblem = {problemId}";
-            return ExecuteQueryWithResult<dynamic>(query);
+            var query = $@"select top 1 Value from AlternativePreferency
+                where IdProblem = {problemId}
+                and IdAlternative = {altId}
+                order by idAlternativePreferency desc";
+            return ExecuteQueryWithResult<float?>(query).SingleOrDefault();
         }
 
-        public static List<dynamic> GetExpertDispersions(int problemId)
+        public static float? GetExpertDispersion(int problemId, int expertId)
         {
-            var query = $@"select a.Name, ed.Value from ExpertDispersion ed 
-                join Expert a on a.IdExpert = ed.IdExpert
-                where IdProblem = {problemId}";
-            return ExecuteQueryWithResult<dynamic>(query);
+            var query = $@"select top 1 Value from ExpertDispersion
+                where IdProblem = {problemId}
+                and Idexpert = {expertId}
+                order by idExpertDispersion desc";
+            return ExecuteQueryWithResult<float?>(query).SingleOrDefault();
         }
 
-        public static List<dynamic> GetExpertCompetencies(int problemId)
+        public static float? GetExpertCompetency(int problemId, int expertId)
         {
-            var query = $@"select a.Name, ec.Value from ExpertCompetency ec 
-                join Expert a on a.IdExpert = ec.IdExpert
-                where IdProblem = {problemId}";
-            return ExecuteQueryWithResult<dynamic>(query);
+            var query = $@"select top 1 Value from ExpertCompetency
+                where IdProblem = {problemId}
+                and Idexpert = {expertId}
+                order by idExpertCompetency desc";
+            return ExecuteQueryWithResult<float?>(query).SingleOrDefault();
         }
 
         public static List<EstimationOnAlternative> GetEstimationsOnAlternatives(int problemId)
