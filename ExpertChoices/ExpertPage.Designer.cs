@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExpertPage));
             this.goBack = new System.Windows.Forms.Button();
+            this.buttonCheckForAssignedProblems = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // goBack
@@ -44,6 +45,19 @@
             this.goBack.TabIndex = 4;
             this.goBack.Text = "НАЗАД";
             this.goBack.UseVisualStyleBackColor = false;
+            this.goBack.Click += new System.EventHandler(this.goBack_Click);
+            // 
+            // buttonCheckForAssignedProblems
+            // 
+            this.buttonCheckForAssignedProblems.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.buttonCheckForAssignedProblems.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonCheckForAssignedProblems.Location = new System.Drawing.Point(55, 138);
+            this.buttonCheckForAssignedProblems.Name = "buttonCheckForAssignedProblems";
+            this.buttonCheckForAssignedProblems.Size = new System.Drawing.Size(483, 55);
+            this.buttonCheckForAssignedProblems.TabIndex = 5;
+            this.buttonCheckForAssignedProblems.Text = "Просмотреть список проблем";
+            this.buttonCheckForAssignedProblems.UseVisualStyleBackColor = false;
+            this.buttonCheckForAssignedProblems.Click += new System.EventHandler(this.buttonCheckForAssignedProblems_Click);
             // 
             // ExpertPage
             // 
@@ -51,6 +65,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(607, 420);
+            this.Controls.Add(this.buttonCheckForAssignedProblems);
             this.Controls.Add(this.goBack);
             this.Name = "ExpertPage";
             this.Text = "ОАО МяскоРай";
@@ -61,5 +76,6 @@
         #endregion
 
         private System.Windows.Forms.Button goBack;
+        private System.Windows.Forms.Button buttonCheckForAssignedProblems;
     }
 }

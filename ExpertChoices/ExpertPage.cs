@@ -16,5 +16,19 @@ namespace ExpertChoices
         {
             InitializeComponent();
         }
+
+        private void buttonCheckForAssignedProblems_Click(object sender, EventArgs e)
+        {
+            var checkForAssignedProblems = new CheckForAssignedProblems();
+            checkForAssignedProblems.Show();
+            this.Close();
+        }
+
+        private void goBack_Click(object sender, EventArgs e)
+        {
+            var logAsPage = new LogAsPage();
+            logAsPage.Show();
+            this.Close();
+        }
     }
 }

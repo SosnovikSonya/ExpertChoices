@@ -43,6 +43,7 @@ namespace ExpertChoices
                 return;
             }
 
+            var caption = "Некорректные данные";
             var experts = new List<int>();
             foreach (var row in dataGridView2.Rows.Cast<DataGridViewRow>())
             {
@@ -54,6 +55,8 @@ namespace ExpertChoices
 
             if (experts.Count < 2)
             {
+                MessageBox.Show("Необходимо выбрать не менее двух экспертов", caption, MessageBoxButtons.OK);
+                return;
                 //messagebox with error
             }
 
@@ -72,6 +75,8 @@ namespace ExpertChoices
 
             if (alternatives.Count < 2)
             {
+                MessageBox.Show("Необходимо добавить не менее двух альтернатив", caption, MessageBoxButtons.OK);
+                return;
                 //messagebox with error
             }
 
@@ -87,6 +92,7 @@ namespace ExpertChoices
 
             AppContext.Client.AssignAlternative(problemId, alternatives);
 
+            MessageBox.Show("Проблема создана, ожидайте ее решения", "Создание прошло успешно", MessageBoxButtons.OK);
             //messagebox фсе ок!
             var page = new AnalyticPage();
             page.Show();
@@ -95,7 +101,9 @@ namespace ExpertChoices
 
         public bool Validate()
         {
+
             return true;
         }
+
     }
 }
