@@ -1,6 +1,6 @@
 ﻿namespace ExpertChoices
 {
-    partial class CheckForAssignedProblems
+    partial class AssignedProblemsPage
     {
         /// <summary>
         /// Required designer variable.
@@ -28,15 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckForAssignedProblems));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssignedProblemsPage));
             this.goBack = new System.Windows.Forms.Button();
             this.ListAssignedProblemsLabel = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.buttonSolve = new System.Windows.Forms.Button();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.problemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.solveTheProblem = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.buttonSolve = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,10 +45,10 @@
             this.goBack.BackColor = System.Drawing.Color.Maroon;
             this.goBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.goBack.ForeColor = System.Drawing.SystemColors.Control;
-            this.goBack.Location = new System.Drawing.Point(57, 357);
-            this.goBack.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.goBack.Location = new System.Drawing.Point(43, 290);
+            this.goBack.Margin = new System.Windows.Forms.Padding(2);
             this.goBack.Name = "goBack";
-            this.goBack.Size = new System.Drawing.Size(100, 41);
+            this.goBack.Size = new System.Drawing.Size(75, 33);
             this.goBack.TabIndex = 4;
             this.goBack.Text = "Назад";
             this.goBack.UseVisualStyleBackColor = false;
@@ -60,11 +60,12 @@
             this.ListAssignedProblemsLabel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ListAssignedProblemsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ListAssignedProblemsLabel.ForeColor = System.Drawing.Color.Black;
-            this.ListAssignedProblemsLabel.Location = new System.Drawing.Point(324, 38);
+            this.ListAssignedProblemsLabel.Location = new System.Drawing.Point(243, 31);
+            this.ListAssignedProblemsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ListAssignedProblemsLabel.Name = "ListAssignedProblemsLabel";
-            this.ListAssignedProblemsLabel.Size = new System.Drawing.Size(403, 31);
+            this.ListAssignedProblemsLabel.Size = new System.Drawing.Size(304, 26);
             this.ListAssignedProblemsLabel.TabIndex = 5;
-            this.ListAssignedProblemsLabel.Text = "Список проблем для решения:";
+            this.ListAssignedProblemsLabel.Text = "Список проблем для оценки";
             // 
             // dataGridView1
             // 
@@ -75,11 +76,26 @@
             this.problemName,
             this.description,
             this.solveTheProblem});
-            this.dataGridView1.Location = new System.Drawing.Point(262, 89);
+            this.dataGridView1.Location = new System.Drawing.Point(43, 72);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(526, 236);
+            this.dataGridView1.Size = new System.Drawing.Size(547, 192);
             this.dataGridView1.TabIndex = 6;
+            // 
+            // buttonSolve
+            // 
+            this.buttonSolve.BackColor = System.Drawing.Color.Maroon;
+            this.buttonSolve.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonSolve.ForeColor = System.Drawing.SystemColors.Control;
+            this.buttonSolve.Location = new System.Drawing.Point(664, 290);
+            this.buttonSolve.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonSolve.Name = "buttonSolve";
+            this.buttonSolve.Size = new System.Drawing.Size(75, 33);
+            this.buttonSolve.TabIndex = 7;
+            this.buttonSolve.Text = "Оценить";
+            this.buttonSolve.UseVisualStyleBackColor = false;
+            this.buttonSolve.Click += new System.EventHandler(this.buttonSolve_Click);
             // 
             // Id
             // 
@@ -102,34 +118,21 @@
             // 
             // solveTheProblem
             // 
-            this.solveTheProblem.HeaderText = "Решить";
+            this.solveTheProblem.HeaderText = "Оценить";
             this.solveTheProblem.Name = "solveTheProblem";
             // 
-            // buttonSolve
+            // AssignedProblemsPage
             // 
-            this.buttonSolve.BackColor = System.Drawing.Color.Maroon;
-            this.buttonSolve.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSolve.ForeColor = System.Drawing.SystemColors.Control;
-            this.buttonSolve.Location = new System.Drawing.Point(886, 357);
-            this.buttonSolve.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonSolve.Name = "buttonSolve";
-            this.buttonSolve.Size = new System.Drawing.Size(100, 41);
-            this.buttonSolve.TabIndex = 7;
-            this.buttonSolve.Text = "Решить";
-            this.buttonSolve.UseVisualStyleBackColor = false;
-            this.buttonSolve.Click += new System.EventHandler(this.buttonSolve_Click);
-            // 
-            // CheckForAssignedProblems
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1023, 431);
+            this.ClientSize = new System.Drawing.Size(767, 350);
             this.Controls.Add(this.buttonSolve);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.ListAssignedProblemsLabel);
             this.Controls.Add(this.goBack);
-            this.Name = "CheckForAssignedProblems";
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Name = "AssignedProblemsPage";
             this.Text = "ОАО МяскоРай";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

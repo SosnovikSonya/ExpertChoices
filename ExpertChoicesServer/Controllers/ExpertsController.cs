@@ -32,5 +32,18 @@ namespace ExpertChoicesServer.Controllers
             }
             return experts;
         }
+
+        [Route("api/experts/current")]
+        [HttpGet]
+        public ExpertChoicesModels.Expert GetCurrentExpert()
+        {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedExpert(_currentUser))
+            {
+                return null;
+            }
+
+            return ModelMapper.ConvertToResponseExpert(DbHelper.GetExpertByUserId(_currentUser.IdUser));
+        }
     }
 }

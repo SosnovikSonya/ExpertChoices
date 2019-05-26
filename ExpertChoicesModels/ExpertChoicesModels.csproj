@@ -55,6 +55,7 @@
     <Compile Include="ExpertMetricsModel.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="Problem.cs" />
+    <Compile Include="ProblemDetailsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterUserPostRequestModel.cs" />
     <Compile Include="User.cs" />

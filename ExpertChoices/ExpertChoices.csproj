@@ -49,11 +49,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheckForAssignedProblems.cs">
+    <Compile Include="AnalyticViewProblemDetailsPage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CheckForAssignedProblems.Designer.cs">
-      <DependentUpon>CheckForAssignedProblems.cs</DependentUpon>
+    <Compile Include="AnalyticViewProblemDetailsPage.Designer.cs">
+      <DependentUpon>AnalyticViewProblemDetailsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AssignedEstimationsPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssignedEstimationsPage.Designer.cs">
+      <DependentUpon>AssignedEstimationsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AnalyticViewProblemsPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AnalyticViewProblemsPage.Designer.cs">
+      <DependentUpon>AnalyticViewProblemsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AssignedProblemsPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssignedProblemsPage.Designer.cs">
+      <DependentUpon>AssignedProblemsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="ApproveUsersPage.cs">
       <SubType>Form</SubType>
@@ -113,8 +131,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CheckForAssignedProblems.resx">
-      <DependentUpon>CheckForAssignedProblems.cs</DependentUpon>
+    <EmbeddedResource Include="AnalyticViewProblemDetailsPage.resx">
+      <DependentUpon>AnalyticViewProblemDetailsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssignedEstimationsPage.resx">
+      <DependentUpon>AssignedEstimationsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AnalyticViewProblemsPage.resx">
+      <DependentUpon>AnalyticViewProblemsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssignedProblemsPage.resx">
+      <DependentUpon>AssignedProblemsPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ApproveUsersPage.resx">
       <DependentUpon>ApproveUsersPage.cs</DependentUpon>

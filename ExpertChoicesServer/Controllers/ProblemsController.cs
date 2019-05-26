@@ -19,6 +19,46 @@ namespace ExpertChoicesServer.Controllers
         // GET: api/Problems
         [Route("api/problems")]
         [HttpGet]
+        public List<ExpertChoicesModels.Problem> GetAllProblems()
+        {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedAnalytic(_currentUser))
+            {
+                return null;
+            }
+
+            return DbHelper.GetAllProblems().Select(dbent => ModelMapper.ConvertToResponseProblem(dbent)).ToList();
+        }
+
+        // GET: api/Problems
+        [Route("api/problems/{id}")]
+        [HttpGet]
+        public ProblemDetailsModel GetProblemDetails(int id)
+        {
+            _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
+            if (!AuthHelper.VerifyUserAuthorizedAnalytic(_currentUser))
+            {
+                return null;
+            }
+
+            var dbProblem = DbHelper.GetProblem(id);
+            var model = new ProblemDetailsModel()
+            {
+                Name = dbProblem.Name,
+                Description = dbProblem.Description,
+                Id = dbProblem.IdProblem,
+                Alternatives = new List<ExpertChoicesModels.Alternative>(),
+                Experts = new List<ExpertChoicesModels.Expert>()
+            };
+            model.Alternatives.AddRange(DbHelper.GetAlternativesOfProblem(id).Select(altDb => ModelMapper.ConvertToResponseAlternative(altDb)));
+            model.Experts.AddRange(DbHelper.GetExpertsOfProblem(id).Select(expDb => ModelMapper.ConvertToResponseExpert(expDb)));
+
+            return model;
+        }
+
+        // GET: api/Problems
+        [Route("api/problems/assigned")]
+        [HttpGet]
         public List<ExpertChoicesModels.Problem> CheckForAssignedProblems()
         {
             _currentUser = AuthHelper.GetUserFromAuthHeader(Request);
@@ -109,7 +149,7 @@ namespace ExpertChoicesServer.Controllers
                         IdProblem = id,
                         Value = null
                     };
-                    DbHelper.CreateEtimationOnExpert(estOnExpertDB);
+                    DbHelper.CreateEstimationOnExpert(estOnExpertDB);
                 }              
             }
         }
@@ -140,7 +180,7 @@ namespace ExpertChoicesServer.Controllers
                         IdProblem = id,
                         Value = null
                     };
-                    DbHelper.CreateEtimationOnAlternative(estOnAlternativeDB);
+                    DbHelper.CreateEstimationOnAlternative(estOnAlternativeDB);
                 }
             }
             return altIds;
@@ -160,6 +200,22 @@ namespace ExpertChoicesServer.Controllers
 
             var estimationsOnAlternativesDB = DbHelper.GetEstimationsOnAlternatives(id);
             var estimationsOnExpertsDB = DbHelper.GetEstimationsOnExpert(id);
+
+            foreach (var est in estimationsOnAlternativesDB)
+            {
+                if (est.Value is null)
+                {
+                    return;
+                }
+            }
+
+            foreach (var est in estimationsOnExpertsDB)
+            {
+                if (est.Value is null)
+                {
+                    return;
+                }
+            }
 
             //Gather estimation on alternatives data into problem object
             foreach (var estOnAltDB in estimationsOnAlternativesDB.GroupBy(est => est.IdEstimator))

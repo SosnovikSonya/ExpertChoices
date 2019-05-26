@@ -11,10 +11,10 @@ using System.Windows.Forms;
 
 namespace ExpertChoices
 {
-    public partial class CheckForAssignedProblems : Form
+    public partial class AssignedProblemsPage : Form
     {
         private List<Problem> _assignedProblems;
-        public CheckForAssignedProblems()
+        public AssignedProblemsPage()
         {
             _assignedProblems = AppContext.Client.CheckForAssignedProblems();
             InitializeComponent();
@@ -35,7 +35,21 @@ namespace ExpertChoices
 
         private void buttonSolve_Click(object sender, EventArgs e)
         {
+            var ids = dataGridView1.Rows
+                .Cast<DataGridViewRow>()
+                .Where(row => (bool)row.Cells["solveTheProblem"].Value)
+                .Select(row => (int)row.Cells["id"].Value)
+                .ToList();
+            if (ids.Count != 1)
+            {
+                MessageBox.Show("Выберите ровно одну проблему для оценивания", "Ошибка", MessageBoxButtons.OK);
+                return;
+            }
 
+            var page = new AssignedEstimationsPage(_assignedProblems.Single(pr => pr.Id == ids.Single()));
+            page.Show();
+            this.Close();
         }
+
     }
 }

@@ -32,7 +32,7 @@ namespace ExpertChoices
         {
             AnalyticPage analyticPage = new AnalyticPage();
             analyticPage.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void next_Click(object sender, EventArgs e)

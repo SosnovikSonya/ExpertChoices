@@ -19,7 +19,7 @@ namespace ExpertChoices
 
         private void buttonCheckForAssignedProblems_Click(object sender, EventArgs e)
         {
-            var checkForAssignedProblems = new CheckForAssignedProblems();
+            var checkForAssignedProblems = new AssignedProblemsPage();
             checkForAssignedProblems.Show();
             this.Close();
         }

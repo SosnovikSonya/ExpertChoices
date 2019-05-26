@@ -70,6 +70,11 @@ namespace ExpertChoicesServer.DataBase
             var query = $"delete from [user] where iduser = {id}";
             return ExecuteQueryWithResult<User>(query).SingleOrDefault();
         }
+        public static List<Problem> GetAllProblems()
+        {
+            var query = $"select * from problem";
+            return ExecuteQueryWithResult<Problem>(query);
+        }
 
         public static List<Problem> CheckForAssignedProblems(int userId)
         {
@@ -171,17 +176,17 @@ namespace ExpertChoicesServer.DataBase
 
         public static int CreateProblem(Problem problem)
         {
-            var query = $"insert into [Problem] output inserted.IdProblem values('{problem.Name}', '{problem.Description}') ";
+            var query = $"insert into [Problem] output inserted.IdProblem values(N'{problem.Name}', N'{problem.Description}') ";
             return ExecuteQueryWithResult<int>(query).Single();
         }
 
-        public static void CreateEtimationOnExpert(EstimationOnExpert est)
+        public static void CreateEstimationOnExpert(EstimationOnExpert est)
         {
             var query = "insert into EstimationOnExpert values(@IdEstimator, @IdEstimatedExpert, @IdProblem, @Value) ";
             ExecuteQuery(query, est);
         }
 
-        public static void CreateEtimationOnAlternative(EstimationOnAlternative est)
+        public static void CreateEstimationOnAlternative(EstimationOnAlternative est)
         {
             var query = "insert into EstimationOnAlternative values(@IdEstimator, @IdEstimatedAlternative, @IdProblem, @Value) ";
             ExecuteQuery(query, est);
@@ -189,7 +194,7 @@ namespace ExpertChoicesServer.DataBase
 
         public static int CreateAlternative(Alternative alternative)
         {
-            var query = $"insert into Alternative output inserted.IdAlternative values('{alternative.Name}','{alternative.Description}') ";
+            var query = $"insert into Alternative output inserted.IdAlternative values(N'{alternative.Name}',N'{alternative.Description}') ";
             return ExecuteQueryWithResult<int>(query).Single();
         }
 
@@ -298,6 +303,24 @@ namespace ExpertChoicesServer.DataBase
         {
             var query = $@"select distinct IdEstimator from EstimationOnExpert where IdProblem =  {problemId}";
             return ExecuteQueryWithResult<int>(query);
+        }
+
+        public static List<Expert> GetExpertsOfProblem(int problemId)
+        {
+            var query = $@"select distinct ee.IdEstimatedExpert as IdExpert, ex.Name
+                        from EstimationOnExpert ee
+                        join expert ex on ex.IdExpert = ee.IdEstimatedExpert
+                        where IdProblem = {problemId}";
+            return ExecuteQueryWithResult<Expert>(query);
+        }
+
+        public static List<Alternative> GetAlternativesOfProblem(int problemId)
+        {
+            var query = $@"select distinct ea.IdEstimatedAlternative as IdAlternative, al.Name, al.Description
+                        from EstimationOnAlternative ea
+                        join Alternative al on ea.IdEstimatedAlternative = al.IdAlternative
+                        where IdProblem = {problemId}";
+            return ExecuteQueryWithResult<Alternative>(query);
         }
     }
 }

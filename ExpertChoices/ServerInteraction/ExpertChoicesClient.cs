@@ -23,6 +23,8 @@ namespace ExpertChoices.ServerInteraction
         private const string _authorizeMethod = "/authorize";
         private const string _alternativesMethod = "/alternatives";
         private const string _expertsMethod = "/experts";
+        private const string _currentExpert = "/current";
+        private const string _assigned = "/assigned";
 
         public ExpertChoicesClient()
         {
@@ -61,7 +63,7 @@ namespace ExpertChoices.ServerInteraction
         //Get
         public List<Problem> CheckForAssignedProblems()
         {
-            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}"), null);
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}/{_assigned}"), null);
             var result = _httpClient.SendAsync(message).Result;
             return JsonHelper.DeserializeFromJson<List<Problem>>(result.Content.ReadAsStringAsync().Result);
         }
@@ -108,6 +110,14 @@ namespace ExpertChoices.ServerInteraction
             var result = _httpClient.SendAsync(message).Result;
         }
 
+        //Get
+        public Expert GetCurrentExpert()
+        {
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_expertApi}{_currentExpert}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<Expert>(result.Content.ReadAsStringAsync().Result);
+        }
+
         #endregion
 
         #region Analytic
@@ -119,6 +129,22 @@ namespace ExpertChoices.ServerInteraction
             var message = GetRequestMessagePost(new Uri($"{_domain}{_problemApi}"), null, content);
             var result = _httpClient.SendAsync(message).Result;
             return JsonHelper.DeserializeFromJson<int>(result.Content.ReadAsStringAsync().Result);
+        }
+
+        //Get
+        public List<Problem> GetAllProblems()
+        {
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<List<Problem>>(result.Content.ReadAsStringAsync().Result);
+        }
+
+        //Get
+        public ProblemDetailsModel GetProblemDetails(int idProblem)
+        {
+            var message = GetRequestMessageGet(new Uri($"{_domain}{_problemApi}/{idProblem}"), null);
+            var result = _httpClient.SendAsync(message).Result;
+            return JsonHelper.DeserializeFromJson<ProblemDetailsModel>(result.Content.ReadAsStringAsync().Result);
         }
 
         public List<int> AssignAlternative(int idProblem, List<Alternative> alternatives)

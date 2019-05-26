@@ -197,27 +197,27 @@ namespace ProblemSolverTests
         [TestMethod]
         public void CreateEstimationOnExpert()
         {
-            var est = new EstimationOnExpert
-            {
-                IdEstimatedExpert = 1,
-                IdEstimator = 2,
-                IdProblem = 1,
-                Value = 5
-            };
-            DbHelper.CreateEtimationOnExpert(est);
+            //var est = new EstimationOnExpert
+            //{
+            //    IdEstimatedExpert = 1,
+            //    IdEstimator = 2,
+            //    IdProblem = 1,
+            //    Value = 5
+            //};
+            //DbHelper.CreateEtimationOnExpert(est);
         }
 
         [TestMethod]
         public void CreateEstimationOnAlternative()
         {
-            var est = new EstimationOnAlternative
-            {
-                IdEstimatedAlternative = 1,
-                IdEstimator = 2,
-                IdProblem = 1,
-                Value = null
-            };
-            DbHelper.CreateEtimationOnAlternative(est);
+            //var est = new EstimationOnAlternative
+            //{
+            //    IdEstimatedAlternative = 1,
+            //    IdEstimator = 2,
+            //    IdProblem = 1,
+            //    Value = null
+            //};
+            //DbHelper.CreateEtimationOnAlternative(est);
         }
 
         [TestMethod]

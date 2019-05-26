@@ -19,16 +19,23 @@ namespace ExpertChoices
 
         private void AddProblemButton_Click(object sender, EventArgs e)
         {
-            AnalyticAddProblemPage addProblemPage = new AnalyticAddProblemPage();
+            var addProblemPage = new AnalyticAddProblemPage();
             addProblemPage.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void goBack_Click(object sender, EventArgs e)
         {
-            AuthorizePage auth = new AuthorizePage();
-            auth.Show();
-            this.Hide();
+            var logAsPage = new LogAsPage();
+            logAsPage.Show();
+            this.Close();
+        }
+
+        private void ViewProblemHistoryButton_Click(object sender, EventArgs e)
+        {
+            var page = new AnalyticViewProblemsPage();
+            page.Show();
+            this.Close();
         }
     }
 }
